@@ -17,35 +17,35 @@ def index(request):
 
 
 def products_by_category(request, slug):
-    categories = Category.objects.all()
     category = get_object_or_404(Category, slug=slug)
-    products = Product.objects.filter(category=category)
 
+    subcategories = category.children.all()
+    products = []
+    for subcategory in subcategories:
+        products.append(Product.objects.filter(category_id=subcategory.id))
+
+    # category_list = category.children.all()
+    # category_parents_ids = []
+    # if category.parent:
+    #     while category is not None:
+    #         category_parents_ids.append(category.id)
+    #         category = category.parent
+    #
+    # category = get_object_or_404(Category, slug=slug)
+    # if category.parent:
+    #     products = Product.objects.filter(category__slug__in=category_list)
+    # else:
+    #     products = Product.objects.filter(category__slug__iexact=slug)
+    # r_product = Product.objects.get(name__iexact='usualkeyboard1blue')
     context = {
         'products': products,
         'category': category,
-        'categories': categories
+        'subcategories': subcategories
+        # 'category_list': category_list,
+        #'r_product': r_product,
+        #'category_parents_ids': category_parents_ids
     }
 
     template = 'store/by_category.html'
 
     return render(request, template, context)
-
-# def show_category(request, hierarchy=None):
-#     category_slug = hierarchy.split('/')
-#     category_queryset = list(Category.objects.all())
-#     all_slugs = [x.slug for x in category_queryset]
-#     parent = None
-#     for slug in category_slug:
-#         if slug in all_slugs:
-#             parent = get_object_or_404(Category, slug=slug, parent=parent)
-#         else:
-#             instance = get_object_or_404(Product, slug=slug)
-#             breadcrumbs_link = instance.get_cat_list()
-#             category_name = [' '.join(i.split('/')[-1].split('-')) for i in breadcrumbs_link]
-#             breadcrumbs = zip(breadcrumbs_link, category_name)
-#             return render(request, "postDetail.html", {'instance': instance, 'breadcrumbs': breadcrumbs})
-#
-#     return render(request, "categories.html",
-#                   {'post_set': parent.post_set.all(), 'sub_categories': parent.children.all()})
-

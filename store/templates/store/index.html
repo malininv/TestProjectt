@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
-    {%load static%}
-    <link link rel="stylesheet" href="{% static 'store/main.css'%}">
+    {% load static %}
+    <link link rel="stylesheet" href="{% static 'store/main.css' %}">
 </head>
 <body>
 <form>
@@ -12,24 +12,25 @@
 </form>
 <p>Адресная строка: </p>
 <div class="main-wrapper">
-    {%block category%}
-    <div class="category">
-    <ul>
-        {%for category in categories%}
-        <a href="#"><li>{{category.name}}</li></a>
-        {%endfor%}
-    </ul>
-</div>
-    {%endblock%}
-    {%block products%}
+    {% block category %}
+        <div class="category">
+            <ul>
+                {% for category in categories %}
+                    <a href="{% url 'category_detail' category.slug %}">
+                        <li>{{ category.name }}</li>
+                    </a>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endblock %}
+    {% block products %}
         <div class="product-wrapper">
-        {% for product in products %}
-        <div class="product-item">{{product.name}}
-            </div>
-            {%endfor%}
-
-    </div>
-    {%endblock%}
+            {% for product in products %}
+                <div class="product-item">{{ product.name }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endblock %}
 </div>
 </body>
 </html>

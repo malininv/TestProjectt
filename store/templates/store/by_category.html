@@ -1,18 +1,21 @@
-{%extends 'testpr/index.html'%}
+{% extends 'store/index.html' %}
 
-{%block category%}
-<div class="category">
-    <strong>{{category.name}}</strong>
-   <ul>
-            {%for subcategory in category.children.all%}
-            <li>{{subcategory.name }}</li>
-            {%endfor%}
-   </ul>
-</div>
-{%endblock%}
+{% block category %}
+    <div class="category">
+        <strong>{{ category.name }}</strong>
+        <ul>
+            {% for subcategory in subcategories %}
+                <li>{{ subcategory.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
 
-{%block products%}
-{%for p in products%}
-<div class="product-item">{{p.name}}</div>
-{%endfor%}
-{%endblock%}
+{% block products %}
+    <div class="product-wrapper">
+    {{ products }}
+    {% for p in products %}
+        <div class="product-item">{{ p.name }}</div>
+    {% endfor %}
+    </div>
+{% endblock %}
