@@ -1,0 +1,18 @@
+.main-wrapper {
+    display: flex;
+}
+
+.category {
+    width: 150px;
+    border: 2px solid black;
+}
+
+.product-wrapper {
+    display: flex;
+}
+
+.product-item {
+    width: 100px;
+    height: 100px;
+    border: 2px solid black;
+}
