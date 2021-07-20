@@ -28,7 +28,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg')
 
     def save(self, *args, **kwargs):
