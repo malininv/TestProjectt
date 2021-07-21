@@ -25,9 +25,9 @@ def products_by_category(request, slug):
 
     if subcategories:
         for subcategory in subcategories:
-            products.append(subcategory.product_set.all())
+            products.append(subcategory.products.all())
     else:
-        products = category.product_set.all()
+        products = category.products.all()
 
     context = {
         'products': products,
