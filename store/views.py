@@ -20,23 +20,15 @@ def products_by_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
 
     subcategories = category.children.all()
-    products = []
-    for subcategory in subcategories:
-        products.append(Product.objects.filter(category_id=subcategory.id))
 
-    # category_list = category.children.all()
-    # category_parents_ids = []
-    # if category.parent:
-    #     while category is not None:
-    #         category_parents_ids.append(category.id)
-    #         category = category.parent
-    #
-    # category = get_object_or_404(Category, slug=slug)
-    # if category.parent:
-    #     products = Product.objects.filter(category__slug__in=category_list)
-    # else:
-    #     products = Product.objects.filter(category__slug__iexact=slug)
-    # r_product = Product.objects.get(name__iexact='usualkeyboard1blue')
+    products = []
+
+    if subcategories:
+        for subcategory in subcategories:
+            products.append(subcategory.product_set.all())
+    else:
+        products = category.product_set.all()
+
     context = {
         'products': products,
         'category': category,
