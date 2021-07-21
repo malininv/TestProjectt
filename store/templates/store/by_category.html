@@ -14,9 +14,10 @@
 {% block products %}
     <div class="product-wrapper">
         <ul>
-            {% for p in products %}
-                <div class="product-item">{{ p.name }}</div>
-            {% endfor %}
+        {{ products }}
+{#            {% for p in products %}#}
+{#                <div class="product-item">{{ p.name }}</div>#}
+{#            {% endfor %}#}
 
         </ul>
     </div>
