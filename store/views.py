@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from .models import Product, Category
 from .utils import get_products_by_category
-
+from django.shortcuts import get_object_or_404
 
 def index(request):
     products = Product.objects.all()
@@ -18,8 +17,8 @@ def index(request):
 
 
 def products_by_category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
     products = get_products_by_category(slug)
-    category = Category.objects.get(slug=slug)
     subcategories = category.children.all()
 
     context = {
