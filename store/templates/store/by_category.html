@@ -4,7 +4,7 @@
     <div class="category">
         <strong>{{ category.name }}</strong>
         <ul>
-            {% for subcategory in category.children.all %}
+            {% for subcategory in subcategories %}
                 <li>{{ subcategory.name }}</li>
             {% endfor %}
         </ul>
@@ -12,11 +12,12 @@
 {% endblock %}
 
 {% block products %}
-
     <div class="product-wrapper">
-    {{ products }}
-{#    {% for p in products %}#}
-{#        <div class="product-item">{{ p.name }}</div>#}
-{#    {% endfor %}#}
+        <ul>
+            {% for p in products %}
+                <div class="product-item">{{ p.name }}</div>
+            {% endfor %}
+
+        </ul>
     </div>
 {% endblock %}
