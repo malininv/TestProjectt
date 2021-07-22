@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.breadcrumbs {
+    margin: 10px;
+}
+
 .category {
     width: 150px;
     border: 2px solid black;

@@ -1,15 +1,9 @@
-{#<div class="breadcrumbs">#}
-{##}
-{#    {% if category%}#}
-{#        <a href="{% url 'category_detail' category.slug %}">/{{ category.name }}</a>#}
-{#    {% endif %}#}
-{##}
-{#    {% if category%}#}
-{#        <a href="{% url 'category_detail' category.slug %}">/{{ category.name }}</a>#}
-{#    {% endif %}#}
-{##}
-{#    {% if category%}#}
-{#        <a href="{% url 'category_detail' category.slug %}">/{{ category.name }}</a>#}
-{#    {% endif %}#}
-{##}
-{#</div>#}
+<div class="breadcrumbs">
+    Адресная строка:
+    {% for category in all_cat %}
+
+    <a href="{% url 'category_detail' category.get_absolute_url%}">/ {{category.name}}</a>
+
+    {% endfor %}
+
+</div>

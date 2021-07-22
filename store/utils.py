@@ -12,3 +12,12 @@ def get_products_by_category(category):
     products.extend(category.products.all())
 
     return products
+
+
+def get_all_parents(category):
+    all_categories = [category]
+    k = category.parent
+    while k is not None:
+        all_categories.append(k)
+        k = k.parent
+    return all_categories[::-1]

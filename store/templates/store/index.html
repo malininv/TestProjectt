@@ -10,40 +10,40 @@
 <form>
     <input type="text">
 </form>
-<p>Адресная строка: </p>
+{% include 'store/includes/breadcrumbs.html' %}
 <div class="main-wrapper">
 
-    {% include 'store/includes/breadcrumbs.html' %}
 
     {% block category %}
-        <div class="category">
-            <ul>
-                {% for category in categories %}
 
-                    <a href="{% url 'category_detail' category.slug %}">
-                        <li class="top-category">{{ category.name }}</li>
+    <div class="category">
+        <ul>
+            {% for category in categories %}
+
+            <a href="{% url 'category_detail' category.slug %}">
+                <li class="top-category">{{ category.name }}</li>
+            </a>
+
+            <ul class="subcategory">
+                {% for subcategory in category.children.all %}
+                <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
+                    <li>{{ subcategory.name }}</li>
+                </a>
+                <ul>
+                    {% for subsubcategory in subcategory.children.all %}
+                    <a href="{% url 'category_detail' subsubcategory.get_absolute_url %}">
+                        <li class="sub-subcategory">
+                            {{ subsubcategory.name }}
+                        </li>
                     </a>
-
-                    <ul class="subcategory">
-                        {% for subcategory in category.children.all %}
-                            <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
-                                <li>{{ subcategory.name }}</li>
-                            </a>
-                            <ul>
-                                {% for subsubcategory in subcategory.children.all %}
-                                    <a href="{% url 'category_detail' subsubcategory.get_absolute_url %}">
-                                        <li class="sub-subcategory">
-                                            {{ subsubcategory.name }}
-                                        </li>
-                                    </a>
-                                {% endfor %}
-                            </ul>
-                        {% endfor %}
-                    </ul>
-
+                    {% endfor %}
+                </ul>
                 {% endfor %}
             </ul>
-        </div>
+
+            {% endfor %}
+        </ul>
+    </div>
     {% endblock %}
 
     {% include 'store/includes/products_to_show.html' %}
