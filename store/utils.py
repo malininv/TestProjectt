@@ -1,6 +1,3 @@
-from .models import Category, Product
-
-
 def get_products_by_category(category):
     subcategories = category.children.all()
     products = []

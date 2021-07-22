@@ -24,10 +24,8 @@ def index(request, hierarchy=None):
         'products': page.object_list,
         'categories': categories,
         'page_obj': page,
-
     }
 
     template = 'store/index.html'
 
     return render(request, template, context)
-

@@ -27,7 +27,7 @@
                     <ul class="subcategory">
                         {% for subcategory in category.children.all %}
                             <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
-                                <li >{{ subcategory.name }}</li>
+                                <li>{{ subcategory.name }}</li>
                             </a>
                             <ul>
                                 {% for subsubcategory in subcategory.children.all %}
