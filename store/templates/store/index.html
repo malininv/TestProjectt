@@ -12,19 +12,22 @@
 </form>
 <p>Адресная строка: </p>
 <div class="main-wrapper">
+
+    {% include 'store/includes/breadcrumbs.html' %}
+
     {% block category %}
         <div class="category">
             <ul>
                 {% for category in categories %}
 
                     <a href="{% url 'category_detail' category.slug %}">
-                        <li>{{ category.name }}</li>
+                        <li class="top-category">{{ category.name }}</li>
                     </a>
 
                     <ul class="subcategory">
                         {% for subcategory in category.children.all %}
                             <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
-                                <li>{{ subcategory.name }}</li>
+                                <li >{{ subcategory.name }}</li>
                             </a>
                             <ul>
                                 {% for subsubcategory in subcategory.children.all %}
@@ -42,15 +45,10 @@
             </ul>
         </div>
     {% endblock %}
-    {% block products %}
-        <div class="product-wrapper">
-            {% for product in products %}
-                <div class="product-item">{{ product.name }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endblock %}
+
+    {% include 'store/includes/products_to_show.html' %}
     {% include 'store/includes/paginator.html' %}
+
 </div>
 </body>
 </html>

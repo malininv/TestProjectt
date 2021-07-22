@@ -1,36 +1,27 @@
-{% extends 'store/index.html' %}
+{#{% extends 'store/index.html' %}#}
 
-{% block category %}
-    <div class="category">
-        {{ hierarchy }}
-        {% if category.parent %}
-            <a href="{% url 'category_detail' category.parent.get_absolute_url %}">
-                <div>В верхнюю категорию</div>
-            </a>
-        {% else %}
-            <a href="{% url 'index' %}">
-                <div>На главную</div>
-            </a>
-        {% endif %}
+{#{% block category %}#}
+{#    <div class="category">#}
+{#        {{ hierarchy }}#}
+{#        {% if category.parent %}#}
+{#            <a href="{% url 'category_detail' category.parent.get_absolute_url %}">#}
+{#                <div>В верхнюю категорию</div>#}
+{#            </a>#}
+{#        {% else %}#}
+{#            <a href="{% url 'index' %}">#}
+{#                <div>На главную</div>#}
+{#            </a>#}
+{#        {% endif %}#}
+{##}
+{#        <a href="{% url 'category_detail' category.get_absolute_url %}"><strong>{{ category.name }}</strong></a>#}
+{#        <ul>#}
+{#            {% for subcategory in category.children.all %}#}
+{#                <a href="{% url 'category_detail' subcategory.get_absolute_url %}">#}
+{#                    <li>{{ subcategory.name }}</li>#}
+{#                </a>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    </div>#}
+{#{% endblock %}#}
 
-        <a href="{% url 'category_detail' category.get_absolute_url %}"><strong>{{ category.name }}</strong></a>
-        <ul>
-            {% for subcategory in category.children.all %}
-                <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
-                    <li>{{ subcategory.name }}</li>
-                </a>
-            {% endfor %}
-        </ul>
-    </div>
-{% endblock %}
 
-{% block products %}
-    <div class="product-wrapper">
-        <ul>
-            {% for p in products %}
-                <div class="product-item">{{ p.name }}</div>
-            {% endfor %}
-
-        </ul>
-    </div>
-{% endblock %}

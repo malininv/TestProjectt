@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    re_path(r'^(?P<hierarchy>.+)/$', views.products_by_category, name='category_detail')
+    re_path(r'^(?P<hierarchy>.+)/$', views.index, name='category_detail')
 ]
