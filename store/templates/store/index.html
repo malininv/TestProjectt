@@ -17,16 +17,22 @@
             <ul>
                 {% for category in categories %}
 
-                    <li>{{ category.name }}</li>
+                    <a href="{% url 'category_detail' category.slug %}">
+                        <li>{{ category.name }}</li>
+                    </a>
 
                     <ul class="subcategory">
                         {% for subcategory in category.children.all %}
-                            <li>{{ subcategory.name }}</li>
+                            <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
+                                <li>{{ subcategory.name }}</li>
+                            </a>
                             <ul>
                                 {% for subsubcategory in subcategory.children.all %}
-                                    <li class="sub-subcategory">
-                                        {{ subsubcategory.name }}
-                                    </li>
+                                    <a href="{% url 'category_detail' subsubcategory.get_absolute_url %}">
+                                        <li class="sub-subcategory">
+                                            {{ subsubcategory.name }}
+                                        </li>
+                                    </a>
                                 {% endfor %}
                             </ul>
                         {% endfor %}
@@ -44,6 +50,7 @@
             {% endfor %}
         </div>
     {% endblock %}
+    {% include 'store/includes/paginator.html' %}
 </div>
 </body>
 </html>

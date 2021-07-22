@@ -2,14 +2,21 @@ from django.shortcuts import render
 from .models import Product, Category
 from .utils import get_products_by_category
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
 
 
 def index(request):
     products = Product.objects.all()
     categories = Category.objects.filter(parent__isnull=True)
+
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(products, 2)
+    page = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': page.object_list,
         'categories': categories,
+        'page_obj': page
     }
 
     template = 'store/index.html'
@@ -18,16 +25,19 @@ def index(request):
 
 
 def products_by_category(request, hierarchy):
-    slugs = hierarchy.split('/')
-    slug = slugs[-1]
-    products = get_products_by_category(slug)
-    category = Category.objects.get(slug=slug)
-    subcategories = category.children.all()
+    slug = hierarchy.split('/')[-1]
+
+    category = get_object_or_404(Category, slug=slug)
+    products = get_products_by_category(category)
+
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(products, 2)
+    page = paginator.get_page(page_number)
 
     context = {
-        'products': products,
+        'products': page.object_list,
         'category': category,
-        'subcategories': subcategories
+        'page_obj': page
     }
 
     template = 'store/by_category.html'

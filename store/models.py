@@ -24,6 +24,14 @@ class Category(models.Model):
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        absolute_url = [self.slug]
+        k = self.parent
+        while k is not None:
+            absolute_url.append(k.slug)
+            k = k.parent
+        return '/'.join(absolute_url[::-1])
+
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
