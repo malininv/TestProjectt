@@ -13,38 +13,13 @@
 {% include 'store/includes/breadcrumbs.html' %}
 <div class="main-wrapper">
 
-
-    {% block category %}
-
     <div class="category">
-        <ul>
-            {% for category in categories %}
+         {% for category in categories %}
+        <div class="category-item {% if category.parent is None %}top-category{% endif %}"><a href="{% url 'category_detail' category.get_absolute_url %}">{{ category.name }}</a></div>
+        {% endfor %}
 
-            <a href="{% url 'category_detail' category.slug %}">
-                <li class="top-category">{{ category.name }}</li>
-            </a>
 
-            <ul class="subcategory">
-                {% for subcategory in category.children.all %}
-                <a href="{% url 'category_detail' subcategory.get_absolute_url %}">
-                    <li>{{ subcategory.name }}</li>
-                </a>
-                <ul>
-                    {% for subsubcategory in subcategory.children.all %}
-                    <a href="{% url 'category_detail' subsubcategory.get_absolute_url %}">
-                        <li class="sub-subcategory">
-                            {{ subsubcategory.name }}
-                        </li>
-                    </a>
-                    {% endfor %}
-                </ul>
-                {% endfor %}
-            </ul>
-
-            {% endfor %}
-        </ul>
     </div>
-    {% endblock %}
 
     {% include 'store/includes/products_to_show.html' %}
     {% include 'store/includes/paginator.html' %}

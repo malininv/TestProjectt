@@ -16,7 +16,7 @@ def index(request, hierarchy=None):
         products = Product.objects.all()
         all_cat = None
 
-    categories = Category.objects.filter(parent__isnull=True)
+    categories = Category.objects.all()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)

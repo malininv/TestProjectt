@@ -39,6 +39,9 @@ class Product(models.Model):
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg')
 
+    class Meta:
+        ordering = ['name']
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Product, self).save(*args, **kwargs)
