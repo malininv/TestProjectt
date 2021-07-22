@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<slug:slug>/', views.products_by_category, name='category_detail')
+    re_path(r'^(?P<hierarchy>.+)/$', views.products_by_category, name='category_detail')
 ]

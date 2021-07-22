@@ -1,4 +1,4 @@
-from .models import Category
+from .models import Category, Product
 
 
 def get_products_by_category(slug):
@@ -16,4 +16,4 @@ def get_products_by_category(slug):
 
     products.extend(category.products.all())
 
-    return products, category
+    return products
