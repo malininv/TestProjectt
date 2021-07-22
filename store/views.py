@@ -17,8 +17,7 @@ def index(request):
 
 
 def products_by_category(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    products = get_products_by_category(slug)
+    products, category = get_products_by_category(slug)
     subcategories = category.children.all()
 
     context = {

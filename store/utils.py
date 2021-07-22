@@ -16,4 +16,4 @@ def get_products_by_category(slug):
 
     products.extend(category.products.all())
 
-    return products
+    return products, category
