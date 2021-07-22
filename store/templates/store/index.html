@@ -16,9 +16,22 @@
         <div class="category">
             <ul>
                 {% for category in categories %}
-                    <a href="{% url 'category_detail' category.slug %}">
-                        <li>{{ category.name }}</li>
-                    </a>
+
+                    <li>{{ category.name }}</li>
+
+                    <ul class="subcategory">
+                        {% for subcategory in category.children.all %}
+                            <li>{{ subcategory.name }}</li>
+                            <ul>
+                                {% for subsubcategory in subcategory.children.all %}
+                                    <li class="sub-subcategory">
+                                        {{ subsubcategory.name }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </ul>
+
                 {% endfor %}
             </ul>
         </div>

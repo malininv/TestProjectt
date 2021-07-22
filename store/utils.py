@@ -5,7 +5,7 @@ def get_products_by_category(slug):
     category = Category.objects.get(slug=slug)
 
     subcategories = category.children.all()
-    products = [category.products.all()]
+    products = []
 
     while subcategories:
         temp = []
@@ -13,5 +13,7 @@ def get_products_by_category(slug):
             products.extend(subcategory.products.all())
             temp.extend(subcategory.children.all())
         subcategories = temp
+
+    products.extend(category.products.all())
 
     return products

@@ -14,7 +14,6 @@
 {% block products %}
     <div class="product-wrapper">
         <ul>
-        {{ products }}
             {% for p in products %}
                 <div class="product-item">{{ p.name }}</div>
             {% endfor %}
