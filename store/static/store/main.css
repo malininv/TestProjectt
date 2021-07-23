@@ -11,6 +11,7 @@
     border: 2px solid black;
     padding: 10px;
     display: flex;
+    flex-direction: column;
 }
 
 .product-wrapper {
@@ -18,12 +19,19 @@
 }
 
 .product-item {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border: 2px solid black;
     padding: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
+}
+
+.product-image {
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
 }
 
 .top-category {

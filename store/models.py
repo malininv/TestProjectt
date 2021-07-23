@@ -37,7 +37,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg')
+    image = models.ImageField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']

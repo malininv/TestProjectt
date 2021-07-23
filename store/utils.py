@@ -11,7 +11,7 @@ def get_products_by_category(category):
 
     products.extend(category.products.all())
 
-    return sorted(products)
+    return products
 
 
 def get_all_parents(category):
