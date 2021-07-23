@@ -22,9 +22,9 @@ def get_all_parents(category):
         k = k.parent
     return all_categories[::-1]
 
-# def get_category_tree(categories) -> dict:
-#     tree_dict = {}
-#     for category in categories:
 
-
-
+# def get_category_tree(all_categories):
+#     categories_with_childs = [category.get_all_pa , category, category.parent for category in ]
+#     for category in all_categories:
+#
+#     return categories_with_childs

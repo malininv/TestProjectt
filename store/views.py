@@ -9,15 +9,20 @@ from django.http import Http404
 def index(request):
     products = Product.objects.all()
     categories = Category.objects.filter(parent=None)
+    all_categories = Category.objects.all()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 2)
     page = paginator.get_page(page_number)
 
+    # tree = get_category_tree(all_categories)
+    #
+    # categories_with_parentcount = [(len(get_all_parents(category)), category) for category in all_categories]
+
     context = {
         'products': page.object_list,
         'categories': categories,
-        'page_obj': page
+        'page_obj': page,
     }
 
     template = 'store/index.html'

@@ -15,7 +15,7 @@
 
     {% block body %}
 
-        <div class="category">
+       <div class="category">
             <ul>
                 {% for category in categories %}
                     <li class="category-item {% if category.parent is None %}top-category{% endif %}"><a
@@ -34,6 +34,17 @@
             </ul>
 
         </div>
+{#        <ul>#}
+{#       {% for category, childrens in tree.items %}#}
+{##}
+{#               <li><a href="">{{ category.name }}</a></li>#}
+{#                {% for child %}#}
+{#           <ul>#}
+{#           <li>{{ subcategories }}</li>#}
+{#           </ul>#}
+{#        {% endfor %}#}
+{#        </ul>#}
+
     {% endblock %}
     {% include 'store/includes/products_to_show.html' %}
     {% include 'store/includes/paginator.html' %}
