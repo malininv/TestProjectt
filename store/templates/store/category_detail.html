@@ -3,6 +3,8 @@
 {% block body %}
 
     <div class="category">
+        {{ all_catt }}
+        {{ hierarchy }}
         {% if category.parent %}
             <a href="{% url 'category_detail' category.parent.get_absolute_url %}">
                 <div>В верхнюю категорию</div>

@@ -3,6 +3,7 @@ from .models import Product, Category
 from .utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+from django.http import Http404
 
 
 def index(request):
@@ -27,8 +28,12 @@ def index(request):
 def category_detail(request, hierarchy=None):
     slug = hierarchy.split('/')[-1]
     category = get_object_or_404(Category, slug=slug)
-    products = get_products_by_category(category)
-    all_cat = get_all_parents(category)
+    all_parent_categories = get_all_parents(category)
+
+    if hierarchy.split('/') == [c.slug for c in all_parent_categories]:
+        products = get_products_by_category(category)
+    else:
+        raise Http404('Invalid url')
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 2)
@@ -38,7 +43,7 @@ def category_detail(request, hierarchy=None):
         'products': page.object_list,
         'category': category,
         'page_obj': page,
-        'all_cat': all_cat
+        'all_cat': all_parent_categories
     }
 
     template = 'store/category_detail.html'
