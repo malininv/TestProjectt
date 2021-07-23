@@ -43,7 +43,7 @@ def category_detail(request, hierarchy=None):
         'products': page.object_list,
         'category': category,
         'page_obj': page,
-        'all_cat': all_parent_categories
+        'all_parent_categories': all_parent_categories
     }
 
     template = 'store/category_detail.html'

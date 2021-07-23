@@ -21,3 +21,10 @@ def get_all_parents(category):
         all_categories.append(k)
         k = k.parent
     return all_categories[::-1]
+
+# def get_category_tree(categories) -> dict:
+#     tree_dict = {}
+#     for category in categories:
+
+
+
