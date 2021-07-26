@@ -1,6 +1,6 @@
 {% extends 'store/index.html' %}
 
-{% block body %}
+{% block category %}
 
     <div class="category">
         {% if category.parent %}
@@ -13,6 +13,8 @@
             </a>
         {% endif %}
 
+
+
         <a href="{% url 'category_detail' category.get_absolute_url %}"><strong>{{ category.name }}</strong></a>
         <ul>
             {% for subcategory in category.children.all %}
@@ -21,7 +23,8 @@
                 </a>
             {% endfor %}
         </ul>
+
     </div>
-{% endblock %}
+{% endblock category %}
 
 

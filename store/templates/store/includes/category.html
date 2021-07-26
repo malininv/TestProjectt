@@ -1,0 +1,14 @@
+<ul>
+    {% for category in categories %}
+        {% if  category.children.all %}
+
+            <li><a href="{% url 'category_detail' category.get_absolute_url %}">{{ category.name }}</a></li>
+            {% include 'store/includes/subcategory.html' %}
+
+        {% else %}
+
+            <li><a href="{% url 'category_detail' category.get_absolute_url %}">{{ category.name }}</a></li>
+
+        {% endif %}
+    {% endfor %}
+</ul>
