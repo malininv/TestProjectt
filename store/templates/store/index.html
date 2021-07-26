@@ -6,16 +6,17 @@
     {% load static %}
     <link link rel="stylesheet" href="{% static 'store/main.css' %}">
 </head>
-<body>
 <form>
     <input type="text">
 </form>
+<a href="{% url 'index' %}" alt="logo"><img src="{% static 'store/images/logo.png' %}"></a>
 {% include 'store/includes/breadcrumbs.html' %}
 <div class="main-wrapper">
+    {{ sorted_cat }}
     {% block category %}
         <ul>
             {% for category in categories %}
-                {% if  category.children.all %}
+                {% if category.children.all %}
                     {% include 'store/includes/category_item.html' %}
                     {% include 'store/includes/subcategory.html' %}
                 {% else %}

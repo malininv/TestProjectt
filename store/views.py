@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Product, Category
-from .utils import get_products_by_category, get_all_parents
+from .utils import get_products_by_category, get_all_parents, get_category_tree
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -9,15 +9,15 @@ from django.http import Http404
 def index(request):
     products = Product.objects.all()
     categories = Category.objects.filter(parent=None)
-
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 2)
     page = paginator.get_page(page_number)
-
+    sorted_cat = get_category_tree(categories)
     context = {
         'products': page.object_list,
         'categories': categories,
         'page_obj': page,
+        'sorted_cat': sorted_cat
     }
 
     template = 'store/index.html'

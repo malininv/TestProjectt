@@ -23,8 +23,11 @@ def get_all_parents(category):
     return all_categories[::-1]
 
 
-# def get_category_tree(all_categories):
-#     categories_with_childs = [category.get_all_pa , category, category.parent for category in ]
-#     for category in all_categories:
-#
-#     return categories_with_childs
+def get_category_tree(categories):
+    categories_sorted = []
+    for category in categories:
+        child_categories = category.children.all()
+        categories_sorted.append(category)
+        if child_categories:
+            categories_sorted.append(get_category_tree(child_categories))
+    return categories_sorted

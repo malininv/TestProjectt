@@ -1,5 +1,5 @@
 <ul>
-    {% for category in  category.children.all %}
+    {% for category in category.children.all %}
         {% if category.children.all %}
             {% include 'store/includes/category_item.html' %}
             {% include 'store/includes/subcategory.html' %}
