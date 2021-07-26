@@ -1,6 +1,7 @@
 <ul>
     {% for category in categories %}
-            {% include 'store/includes/category_item.html' %}
-            {% include 'store/includes/categories.html' with categories=category.children.all %}
+        <li><a href="{% url 'category_detail' category.get_absolute_url %}">{{ category.name }}</a>
+            {% include 'store/includes/categories.html' with categories=category.children.all %}</li>
     {% endfor %}
 </ul>
+

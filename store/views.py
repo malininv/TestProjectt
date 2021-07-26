@@ -27,7 +27,7 @@ def category_detail(request, hierarchy=None):
     slug = hierarchy.split('/')[-1]
     category = get_object_or_404(Category, slug=slug)
     all_parent_categories = get_all_parents(category)
-
+    categories = Category.objects.filter(parent=None)
     if hierarchy.split('/') == [c.slug for c in all_parent_categories]:
         products = get_products_by_category(category)
     else:
@@ -41,7 +41,8 @@ def category_detail(request, hierarchy=None):
         'products': page.object_list,
         'category': category,
         'page_obj': page,
-        'all_parent_categories': all_parent_categories
+        'all_parent_categories': all_parent_categories,
+        'categories': categories
     }
 
     template = 'store/category_detail.html'

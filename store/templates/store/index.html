@@ -13,11 +13,14 @@
 <a href="{% url 'index' %}" alt="logo"><img src="{% static 'store/images/logo.png' %}"></a>
 {% include 'store/includes/breadcrumbs.html' %}
 <div class="main-wrapper">
-    {% block category %}
-        {% include 'store/includes/categories.html' %}
-    {% endblock category %}
+    <div class="category">
+        {% block category %}
+            {% include 'store/includes/categories.html' %}
+        {% endblock category %}
+    </div>
     {% include 'store/includes/products_to_show.html' %}
     {% include 'store/includes/paginator.html' %}
 </div>
+<script>{% static 'store/main.js' %}</script>
 </body>
 </html>
