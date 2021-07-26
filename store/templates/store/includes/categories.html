@@ -1,8 +1,8 @@
 <ul>
     {% for category in categories %}
         {% if  category.children.all %}
-                {% include 'store/includes/category_item.html' %}
-                {% include 'store/includes/categories.html' with categories=category.children.all %}
+            {% include 'store/includes/category_item.html' %}
+            {% include 'store/includes/categories.html' with categories=category.children.all %}
         {% else %}
             {% include 'store/includes/category_item.html' %}
         {% endif %}
