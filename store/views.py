@@ -12,12 +12,10 @@ def index(request):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 2)
     page = paginator.get_page(page_number)
-    sorted_cat = get_category_tree(categories)
     context = {
         'products': page.object_list,
         'categories': categories,
-        'page_obj': page,
-        'sorted_cat': sorted_cat
+        'page_obj': page
     }
 
     template = 'store/index.html'

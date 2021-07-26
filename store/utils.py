@@ -31,3 +31,14 @@ def get_category_tree(categories):
         if child_categories:
             categories_sorted.append(get_category_tree(child_categories))
     return categories_sorted
+
+
+def get_category_tree_dict(categories):
+    categories_sorted = {}
+    for category in categories:
+        child_categories = category.children.all()
+        if child_categories:
+            categories_sorted[category] = get_category_tree(child_categories)
+        else:
+            categories_sorted[category] = None
+    return categories_sorted
