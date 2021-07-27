@@ -1,14 +1,16 @@
 from django.shortcuts import render
-from .models import Product, Category
-from .utils import get_products_by_category, get_all_parents, get_category_tree
-from django.shortcuts import get_object_or_404
+from store.models import Product, Category
+from store.utils import get_products_by_category, get_all_parents
+from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.template.loader import render_to_string
 
 
 def index(request):
     categories = Category.objects.filter(parent=None)
     query_search = request.GET.get('search', '')
+
     if query_search:
         products = Product.objects.filter(name__icontains=query_search)
     else:
@@ -27,22 +29,20 @@ def index(request):
 
     template = 'store/index.html'
 
+    if request.is_ajax():
+        return HttpResponse(render_to_string('store/includes/products_to_show.html', context, request))
+
     return render(request, template, context)
 
 
 def category_detail(request, hierarchy=None):
     categories = Category.objects.filter(parent=None)
-    query_search = request.GET.get('search', '')
-
     slug = hierarchy.split('/')[-1]
     category = get_object_or_404(Category, slug=slug)
     all_parent_categories = get_all_parents(category)
 
     if hierarchy.split('/') == [c.slug for c in all_parent_categories]:
-        if query_search:
-            products = [p for p in get_products_by_category(category) if query_search in p.name]
-        else:
-            products = get_products_by_category(category)
+        products = get_products_by_category(category)
 
     else:
         raise Http404('Invalid url')
@@ -56,8 +56,7 @@ def category_detail(request, hierarchy=None):
         'category': category,
         'page_obj': page,
         'all_parent_categories': all_parent_categories,
-        'categories': categories,
-        'query_search': query_search
+        'categories': categories
     }
 
     template = 'store/index.html'
