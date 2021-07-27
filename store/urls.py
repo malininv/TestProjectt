@@ -5,7 +5,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    re_path(r'^(?P<hierarchy>.+)/$', views.category_detail, name='category_detail')
+    path('ajax/', views.search_view, name="ajax"),
+    re_path(r'^(?P<hierarchy>.+)/$', views.category_detail, name='category_detail'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,12 +9,8 @@ from django.template.loader import render_to_string
 
 def index(request):
     categories = Category.objects.filter(parent=None)
-    query_search = request.GET.get('search', '')
 
-    if query_search:
-        products = Product.objects.filter(name__icontains=query_search)
-    else:
-        products = Product.objects.all()
+    products = Product.objects.all()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 2)
@@ -23,14 +19,10 @@ def index(request):
     context = {
         'products': page.object_list,
         'page_obj': page,
-        'categories': categories,
-        'query_search': query_search
+        'categories': categories
     }
 
     template = 'store/index.html'
-
-    if request.is_ajax():
-        return HttpResponse(render_to_string('store/includes/products_to_show.html', context, request))
 
     return render(request, template, context)
 
@@ -62,3 +54,15 @@ def category_detail(request, hierarchy=None):
     template = 'store/index.html'
 
     return render(request, template, context)
+
+
+def search_view(request):
+    query_search = request.GET.get('search', '')
+    products = Product.objects.filter(name__icontains=query_search)
+
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(products, 2)
+    page = paginator.get_page(page_number)
+
+    if request.is_ajax():
+        return HttpResponse(render_to_string('store/includes/products_to_show.html', {'products': products, 'page_obj': page}, request))
