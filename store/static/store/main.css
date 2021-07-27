@@ -92,4 +92,8 @@ li {
     margin-left: 10px;
 }
 
+#ajax-url {
+    display: none;
+}
+
 
