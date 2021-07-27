@@ -3,7 +3,7 @@ $(document).ready(() => {
         e.preventDefault()
         const req = $('#input-main').serialize()
         $.ajax({
-            url: $('#ajax-url').html(),
+            url: $('#main-wrapper').attr("data-url"),
             data: req,
             success: (response) => {
                 $('.product-wrapper').html(response)
