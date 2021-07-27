@@ -19,6 +19,13 @@
     margin-bottom: 20px;
 }
 
+#input-main input {
+    display: block;
+    margin: 25px 0;
+    padding: 10px;
+    width: 300px;
+}
+
 .accordion-item__input {
     position: absolute;
     top: 0;
