@@ -58,12 +58,15 @@ def category_detail(request, hierarchy=None):
 
 def search_view(request):
     query_search = request.GET.get('search', '')
-    products = Product.objects.filter(name__icontains=query_search)
+    is_products = Product.objects.filter(name__icontains=query_search).exists()
+    if is_products:
+        products = Product.objects.filter(name__icontains=query_search)
+        page_number = request.GET.get('page', 1)
+        paginator = Paginator(products, 2)
+        page = paginator.get_page(page_number)
+    else:
+        products = None
+        page = None
 
-    page_number = request.GET.get('page', 1)
-    paginator = Paginator(products, 2)
-    page = paginator.get_page(page_number)
-
-    if request.is_ajax():
-        return HttpResponse(
-            render_to_string('store/includes/products_to_show.html', {'products': products, 'page_obj': page}, request))
+    return HttpResponse(
+        render_to_string('store/includes/products_to_show.html', {'products': products, 'page_obj': page}, request))
