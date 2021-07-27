@@ -65,4 +65,5 @@ def search_view(request):
     page = paginator.get_page(page_number)
 
     if request.is_ajax():
-        return HttpResponse(render_to_string('store/includes/products_to_show.html', {'products': products, 'page_obj': page}, request))
+        return HttpResponse(
+            render_to_string('store/includes/products_to_show.html', {'products': products, 'page_obj': page}, request))

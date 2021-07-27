@@ -7,6 +7,8 @@
                     {% if product.image %}{{ product.image.url }} {% else %} {{ product.category.image.url }} {% endif %}"
                  alt="Какой-то продукт">
         </div>
+        {% empty %}
+        <div class="no-item">Таких нету</div>
     {% endfor %}
     {% include 'store/includes/paginator.html' %}
 </div>
