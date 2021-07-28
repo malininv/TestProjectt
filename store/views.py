@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from store.models import Product, Category
 from store.utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404
@@ -59,15 +59,18 @@ def search_view(request):
     if not request.is_ajax():
         raise Http404()
     query_search = request.GET.get('search', '')
+
     is_products = Product.objects.filter(name__icontains=query_search).exists()
     if is_products:
         products = Product.objects.filter(name__icontains=query_search)
         page_number = request.GET.get('page', 1)
         paginator = Paginator(products, 12)
         page = paginator.get_page(page_number)
+
     else:
-        products = None
-        page = None
+        products = Product.objects.none()
+        paginator = Paginator(products, 1)
+        page = paginator.get_page(1)
 
     return render(request,
-                  'store/includes/products_to_show.html', {'products': products, 'page_obj': page})
+                  'store/includes/products_to_show.html', {'products': page.object_list, 'page_obj': page})

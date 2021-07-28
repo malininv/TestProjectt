@@ -1,9 +1,9 @@
 {% if page_obj.has_other_pages %}
     <div class="paginator">
-        <a href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">
+        <a id="prev_button" href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">
             <span class="{% if not page_obj.has_previous %} disabled {% endif %}">&lt;&lt;назад</span>
         </a>
-        <a href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">
+        <a id="next_button" data-page="&page={{ page_obj.next_page_number }}"href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">
             <span class="{% if not page_obj.has_next %} disabled {% endif %}">вперед&gt;&gt;</span>
         </a>
     </div>
