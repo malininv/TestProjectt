@@ -1,1 +1,1 @@
-from TestProject.settings.common import *
+from django.conf import settings

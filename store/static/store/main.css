@@ -33,6 +33,10 @@
     opacity: 0;
 }
 
+.disabled {
+    display: none;
+}
+
 .accordion-item__trigger {
     display: block;
     padding: 20px;

@@ -1,8 +1,5 @@
-from TestProject.settings.common import *
-import os
+from django.conf import settings
 
-DEBUG = False
-
-SECRET_KEY = os.environ['SECRET_KEY']
+settings.DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
