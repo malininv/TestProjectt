@@ -403,7 +403,7 @@ CREATE TABLE public.store_product (
     id bigint NOT NULL,
     name character varying(200) NOT NULL,
     slug character varying(50) NOT NULL,
-    image character varying(100) NOT NULL,
+    image character varying(100),
     category_id bigint NOT NULL
 );
 
@@ -569,7 +569,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$260000$6noYOWZjKzyJoJIb3fJ17J$HwIG9+ngcoyqZ6wuCkJl2K3E92RODy2TrVmm0hh1/uA=	2021-07-23 03:28:38.56307+00	t	admin				t	t	2021-07-23 03:28:35.092882+00
+1	pbkdf2_sha256$260000$6noYOWZjKzyJoJIb3fJ17J$HwIG9+ngcoyqZ6wuCkJl2K3E92RODy2TrVmm0hh1/uA=	2021-07-28 04:04:25.590187+00	t	admin				t	t	2021-07-23 03:28:35.092882+00
 \.
 
 
@@ -611,6 +611,21 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 15	2021-07-23 04:20:39.121291+00	2	intel-i3-cpu	2	[{"changed": {"fields": ["Image"]}}]	2	1
 16	2021-07-23 04:24:11.503303+00	4	CPU -> Intel -> intel-i5	2	[{"changed": {"fields": ["Image"]}}]	1	1
 17	2021-07-23 04:24:28.414997+00	3	intel-i5-noimage	1	[{"added": {}}]	2	1
+18	2021-07-26 04:38:31.859018+00	6	CPU -> AMD -> Ryzen 7	1	[{"added": {}}]	1	1
+19	2021-07-26 04:38:56.96091+00	7	GPU	1	[{"added": {}}]	1	1
+20	2021-07-26 04:43:07.751406+00	8	CPU -> Intel -> intel-i3 -> intel-i3-2core	1	[{"added": {}}]	1	1
+21	2021-07-26 04:45:47.541282+00	8	CPU -> Intel -> intel-i3 -> intel-i3-2core	3		1	1
+22	2021-07-27 09:12:11.765921+00	4	cute_gpu_card	1	[{"added": {}}]	2	1
+23	2021-07-27 09:32:56.122012+00	4	cute_gpu_card	2	[{"changed": {"fields": ["Image"]}}]	2	1
+24	2021-07-28 04:06:07.592607+00	5	intel--core1	1	[{"added": {}}]	2	1
+25	2021-07-28 04:06:17.171667+00	6	intel--core2	1	[{"added": {}}]	2	1
+26	2021-07-28 04:06:23.243806+00	7	intel--core3	1	[{"added": {}}]	2	1
+27	2021-07-28 04:06:29.646739+00	8	intel--core4	1	[{"added": {}}]	2	1
+28	2021-07-28 04:06:38.223844+00	9	intel--core5	1	[{"added": {}}]	2	1
+29	2021-07-28 04:06:46.440564+00	10	intel--core6	1	[{"added": {}}]	2	1
+30	2021-07-28 04:09:56.031432+00	11	intel--core7	1	[{"added": {}}]	2	1
+31	2021-07-28 04:10:04.189007+00	12	intel--core8	1	[{"added": {}}]	2	1
+32	2021-07-28 04:10:12.713812+00	13	intel--core9	1	[{"added": {}}]	2	1
 \.
 
 
@@ -655,6 +670,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 18	sessions	0001_initial	2021-07-23 03:25:57.434939+00
 19	store	0001_initial	2021-07-23 03:25:57.486588+00
 20	store	0002_auto_20210723_1025	2021-07-23 03:25:57.498305+00
+21	store	0003_alter_product_image	2021-07-28 04:41:07.198311+00
 \.
 
 
@@ -664,6 +680,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 ye6eqxrqrl8yrzc7gxx4qc1vadajvbh3	.eJxVjMsOwiAQRf-FtSEdHgPj0r3fQGCgUjU0Ke3K-O_apAvd3nPOfYkQt7WGrZclTFmcBYjT75YiP0rbQb7Hdpslz21dpiR3RR60y-ucy_NyuH8HNfb6rRE1aHKgHI8E7HlgMCPqRFFZTUwuO28xeTaIFpwlD16bwSArpkji_QGsuTZH:1m6lra:wnl37nUrsRYDgTz-nPy_rC96MAHtb4F5ArPILX1uIsg	2021-08-06 03:28:38.566335+00
+2hpe8c2eh3czaj3x572bnhffz7j340su	.eJxVjMsOwiAQRf-FtSEdHgPj0r3fQGCgUjU0Ke3K-O_apAvd3nPOfYkQt7WGrZclTFmcBYjT75YiP0rbQb7Hdpslz21dpiR3RR60y-ucy_NyuH8HNfb6rRE1aHKgHI8E7HlgMCPqRFFZTUwuO28xeTaIFpwlD16bwSArpkji_QGsuTZH:1m8J7u:JoOeCplWbwy509m-HIK1B78pLbCYmAYm-Y3qCgR1hRg	2021-08-10 09:11:50.784159+00
+qnwrzhn6b5ja1h653unrycs1nz2s07o7	.eJxVjMsOwiAQRf-FtSEdHgPj0r3fQGCgUjU0Ke3K-O_apAvd3nPOfYkQt7WGrZclTFmcBYjT75YiP0rbQb7Hdpslz21dpiR3RR60y-ucy_NyuH8HNfb6rRE1aHKgHI8E7HlgMCPqRFFZTUwuO28xeTaIFpwlD16bwSArpkji_QGsuTZH:1m8anx:VUYjCL-Mo6l14xjBzDRIA-NYyxc5r6B-h-WiL62yesI	2021-08-11 04:04:25.593202+00
 \.
 
 
@@ -677,6 +695,8 @@ COPY public.store_category (id, name, slug, image, parent_id) FROM stdin;
 3	AMD	amd	default.jpg	1
 5	intel-i3	intel-i3	13hq.jpeg	2
 4	intel-i5	intel-i5	i5category.jpeg	2
+6	Ryzen 7	ryzen-7	default.jpg	3
+7	GPU	gpu	default.jpg	\N
 \.
 
 
@@ -688,6 +708,46 @@ COPY public.store_product (id, name, slug, image, category_id) FROM stdin;
 1	intel-i5-cpu	intel-i5-cpu	i5_Ry3GpaT.jpeg	4
 2	intel-i3-cpu	intel-i3-cpu	13hq.jpeg	5
 3	intel-i5-noimage	intel-i5-noimage		4
+4	cute_gpu_card	cute_gpu_card	gpu_card_yCgRoAa.jpg	7
+5	intel--core1	intel-core1		2
+6	intel--core2	intel-core2		2
+7	intel--core3	intel-core3		2
+8	intel--core4	intel-core4		2
+9	intel--core5	intel-core5		2
+10	intel--core6	intel-core6		2
+11	intel--core7	intel-core7		2
+12	intel--core8	intel-core8		2
+13	intel--core9	intel-core9		2
+14	intel--core10	intel-core10		2
+15	intel--core11	intel-core11		2
+16	intel--core12	intel-core12		2
+17	intel--core13	intel-core13		2
+18	intel--core14	intel-core14		2
+19	intel--core15	intel-core15		2
+20	intel--core16	intel-core16		2
+21	intel--core17	intel-core17		2
+22	intel--core18	intel-core18		2
+23	intel--core19	intel-core19		2
+24	intel--core20	intel-core20		2
+25	intel--core21	intel-core21		2
+26	intel--core22	intel-core22		2
+27	intel--core23	intel-core23		2
+28	intel--core24	intel-core24		2
+29	intel--core25	intel-core25		2
+30	intel--core26	intel-core26		2
+31	intel--core27	intel-core27		2
+32	intel--core28	intel-core28		2
+33	intel--core29	intel-core29		2
+34	intel--core30	intel-core30		2
+35	intel--core31	intel-core31		2
+36	intel--core32	intel-core32		2
+37	intel--core33	intel-core33		2
+38	intel--core34	intel-core34		2
+39	intel--core35	intel-core35		2
+40	intel--core36	intel-core36		2
+41	intel--core37	intel-core37		2
+42	intel--core38	intel-core38		2
+43	intel--core39	intel-core39		2
 \.
 
 
@@ -737,7 +797,7 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user_name
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 17, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 32, true);
 
 
 --
@@ -751,21 +811,21 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 8, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user_name
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 20, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 21, true);
 
 
 --
 -- Name: store_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user_name
 --
 
-SELECT pg_catalog.setval('public.store_category_id_seq', 5, true);
+SELECT pg_catalog.setval('public.store_category_id_seq', 8, true);
 
 
 --
 -- Name: store_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user_name
 --
 
-SELECT pg_catalog.setval('public.store_product_id_seq', 3, true);
+SELECT pg_catalog.setval('public.store_product_id_seq', 43, true);
 
 
 --

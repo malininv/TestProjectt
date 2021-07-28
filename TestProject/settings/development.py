@@ -1,0 +1,1 @@
+from TestProject.settings.common import *

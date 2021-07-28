@@ -3,8 +3,7 @@ from store.models import Product, Category
 from store.utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponse
-from django.template.loader import render_to_string
+from django.http import Http404
 
 
 def index(request):
@@ -37,7 +36,7 @@ def category_detail(request, hierarchy=None):
         products = get_products_by_category(category)
 
     else:
-        raise Http404('Invalid url')
+        raise Http404()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
@@ -67,6 +66,8 @@ def search_view(request):
     else:
         products = None
         page = None
-
-    return HttpResponse(
-        render_to_string('store/includes/products_to_show.html', {'products': products, 'page_obj': page}, request))
+    if request.is_ajax():
+        return render(request,
+                      'store/includes/products_to_show.html', {'products': products, 'page_obj': page})
+    else:
+        raise Http404()

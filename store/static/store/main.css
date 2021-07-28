@@ -36,23 +36,19 @@
 .accordion-item__trigger {
     display: block;
     padding: 20px;
-    border: 1px solid black;
+    outline: 1px solid black;
     width: 110px;
     margin: 0;
 }
 
 .accordion-item__content {
-    border: 1px solid black;
+    outline: 1px solid black;
     border-top: none;
     display: none;
 }
 
 .accordion-item__input:checked + label + .accordion-item__content {
     display: block;
-}
-
-.accordion-item__input:checked + .accordion-item__trigger {
-    background-color: #cccccc;
 }
 
 a {
@@ -68,6 +64,7 @@ li {
 .product-wrapper {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     width: 730px;
     height: 580px;
 }
