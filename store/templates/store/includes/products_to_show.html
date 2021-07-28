@@ -4,11 +4,13 @@
             <div>{{ product.name }}</div>
             <img class="product-image" src="
 
+
                     {% if product.image %}{{ product.image.url }} {% else %} {{ product.category.image.url }} {% endif %}"
                  alt="Какой-то продукт">
         </div>
-        {% empty %}
+    {% empty %}
         <div class="no-item">Таких нету</div>
     {% endfor %}
-    {% include 'store/includes/paginator.html' %}
+
 </div>
+{% include 'store/includes/paginator.html' %}
