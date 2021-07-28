@@ -56,6 +56,8 @@ def category_detail(request, hierarchy=None):
 
 
 def search_view(request):
+    if not request.is_ajax():
+        raise Http404()
     query_search = request.GET.get('search', '')
     is_products = Product.objects.filter(name__icontains=query_search).exists()
     if is_products:
@@ -66,8 +68,6 @@ def search_view(request):
     else:
         products = None
         page = None
-    if request.is_ajax():
-        return render(request,
-                      'store/includes/products_to_show.html', {'products': products, 'page_obj': page})
-    else:
-        raise Http404()
+
+    return render(request,
+                  'store/includes/products_to_show.html', {'products': products, 'page_obj': page})
