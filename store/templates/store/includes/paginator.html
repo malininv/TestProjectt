@@ -1,4 +1,4 @@
-{% if page_obj.has_other_pages%}
+
 <div class="paginator">
 
         <a id="prev_button"  href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">
@@ -8,4 +8,3 @@
             <span class="">вперед&gt;&gt;</span>
         </a>
 </div>
-{% endif %}

@@ -12,7 +12,7 @@
 </form>
 <a href="{% url 'index' %}" alt="logo"><img src="{% static 'store/images/logo.png' %}"></a>
 {% include 'store/includes/breadcrumbs.html' %}
-<div class="main-wrapper" id="main-wrapper" data-url="{% url 'ajax' %}">
+<div class="main-wrapper" id="main-wrapper" data-url="{% if all_parent_categories %}{% url 'category_detail' category.get_absolute_url %}{% else %}{% url 'index' %}{% endif %}">
     <div class="category">
         {% block category %}
             {% include 'store/includes/categories.html' %}

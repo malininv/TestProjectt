@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from store.models import Product, Category
 from store.utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404
@@ -28,6 +28,10 @@ def index(request):
 
     template = 'store/index.html'
 
+    if request.is_ajax():
+        return render(request,
+                      'store/includes/products_to_show.html', context)
+
     return render(request, template, context)
 
 
@@ -56,11 +60,14 @@ def category_detail(request, hierarchy=None):
     }
 
     template = 'store/index.html'
+    if request.is_ajax():
+        return render(request,
+                      'store/includes/products_to_show.html', context)
 
     return render(request, template, context)
 
 
-def search_view(request):
+def ajax(request):
     if not request.is_ajax():
         raise Http404()
 

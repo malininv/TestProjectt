@@ -25,13 +25,8 @@ $(document).ready(() => {
                 let products = $(response).filter('.product-wrapper').html()
                 let paginator = $(response).find('#next_button').attr('href')
                 let paginator2 = $(response).find('#prev_button').attr('href')
+                console.log(response)
                 console.log(paginator)
-                // if (paginator === '?') {
-                //     paginator = ''
-                // }
-                // if (paginator2 === '?') {
-                //     paginator2 = ''
-                // }
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)

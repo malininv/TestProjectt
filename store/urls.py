@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('ajax/', views.search_view, name="ajax"),
+    path('ajax/', views.ajax, name="ajax"),
     re_path(r'^(?P<hierarchy>.+)/$', views.category_detail, name='category_detail'),
 
 ]
