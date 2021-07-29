@@ -9,7 +9,11 @@ from django.http import Http404
 def index(request):
     categories = Category.objects.filter(parent=None)
 
-    products = Product.objects.all()
+    query_search = request.GET.get('search', '')
+    if query_search:
+        products = Product.objects.filter(name__icontains=query_search)
+    else:
+        products = Product.objects.all()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
@@ -18,7 +22,8 @@ def index(request):
     context = {
         'products': page.object_list,
         'page_obj': page,
-        'categories': categories
+        'categories': categories,
+        'query_search': query_search
     }
 
     template = 'store/index.html'
@@ -58,19 +63,24 @@ def category_detail(request, hierarchy=None):
 def search_view(request):
     if not request.is_ajax():
         raise Http404()
+
     query_search = request.GET.get('search', '')
 
-    is_products = Product.objects.filter(name__icontains=query_search).exists()
-    if is_products:
+    if query_search:
         products = Product.objects.filter(name__icontains=query_search)
-        page_number = request.GET.get('page', 1)
-        paginator = Paginator(products, 12)
-        page = paginator.get_page(page_number)
 
     else:
-        products = Product.objects.none()
-        paginator = Paginator(products, 1)
-        page = paginator.get_page(1)
+        products = Product.objects.all()
+
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(products, 12)
+    page = paginator.get_page(page_number)
+
+    context = {
+        'products': page.object_list,
+        'page_obj': page,
+        'query_search': query_search
+    }
 
     return render(request,
-                  'store/includes/products_to_show.html', {'products': page.object_list, 'page_obj': page})
+                  'store/includes/products_to_show.html', context)
