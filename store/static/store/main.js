@@ -26,8 +26,10 @@ $(document).ready(() => {
             success: (response) => {
                 let products = $(response).filter('.product-wrapper').html()
                 let paginator = $(response).find('#next_button').attr('href')
+                let paginator2 = $(response).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
+                $('#prev_button').attr("href", paginator2)
                 history.replaceState(null, null, `?${req}`);
             }
         })
@@ -41,9 +43,11 @@ $(document).ready(() => {
             data: req,
             success: (response) => {
                 let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#prev_button').attr('href')
+                let paginator = $(response).find('#next_button').attr('href')
+                let paginator2 = $(response).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
-                $('#prev_button').attr("href", paginator)
+                $('#next_button').attr("href", paginator)
+                $('#prev_button').attr("href", paginator2)
                 history.replaceState(null, null, `?${req}`);
             }
         })
