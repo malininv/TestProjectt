@@ -25,11 +25,10 @@ $(document).ready(() => {
         const req = $('#next_button').attr("href").slice(1)
         if ($('#main-wrapper').attr("data-is-ajax")) {
             url = $('#main-wrapper').attr("data-ajax")
-        }
-        else {
+        } else {
             url = ''
         }
-       $.ajax({
+        $.ajax({
             url: url,
             data: req,
             success: (response) => {
@@ -47,14 +46,14 @@ $(document).ready(() => {
     $('#prev_button').click((e) => {
         e.preventDefault()
         const req = $('#prev_button').attr("href").slice(1)
-         if ($('#main-wrapper').attr("data-is-ajax")) {
+
+        if ($('#main-wrapper').attr("data-is-ajax")) {
             url = $('#main-wrapper').attr("data-ajax")
-        }
-        else {
+        } else {
             url = ''
         }
         $.ajax({
-            url: '',
+            url: url,
             data: req,
             success: (response) => {
                 let products = $(response).filter('.product-wrapper').html()
