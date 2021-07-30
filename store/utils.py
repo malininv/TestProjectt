@@ -38,7 +38,7 @@ def get_category_tree_dict(categories):
     for category in categories:
         child_categories = category.children.all()
         if child_categories:
-            categories_sorted[category] = get_category_tree(child_categories)
+            categories_sorted[category] = get_category_tree_dict(child_categories)
         else:
             categories_sorted[category] = None
     return categories_sorted
