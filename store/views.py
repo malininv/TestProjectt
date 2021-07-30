@@ -7,7 +7,7 @@ from django.http import Http404
 
 
 def index(request):
-    categories = Category.objects.filter(parent=None)
+    categories = Category.objects.filter(parent=None).prefetch_related('children')
 
     query_search = request.GET.get('search', '')
     if query_search:
