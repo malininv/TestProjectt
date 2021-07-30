@@ -14,16 +14,23 @@ $(document).ready(() => {
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)
                 $('.breadcrumbs').empty()
+                $('#main-wrapper').attr("data-is-ajax", 'true')
             }
         })
     })
 
     $('#next_button').click((e) => {
         e.preventDefault()
-        const req = $('#next_button').attr("href").slice(1)
 
+        const req = $('#next_button').attr("href").slice(1)
+        if ($('#main-wrapper').attr("data-is-ajax")) {
+            url = $('#main-wrapper').attr("data-ajax")
+        }
+        else {
+            url = ''
+        }
        $.ajax({
-            url: '',
+            url: url,
             data: req,
             success: (response) => {
                 let products = $(response).filter('.product-wrapper').html()
@@ -40,8 +47,14 @@ $(document).ready(() => {
     $('#prev_button').click((e) => {
         e.preventDefault()
         const req = $('#prev_button').attr("href").slice(1)
+         if ($('#main-wrapper').attr("data-is-ajax")) {
+            url = $('#main-wrapper').attr("data-ajax")
+        }
+        else {
+            url = ''
+        }
         $.ajax({
-            url: $('#main-wrapper').attr("data-url"),
+            url: '',
             data: req,
             success: (response) => {
                 let products = $(response).filter('.product-wrapper').html()
