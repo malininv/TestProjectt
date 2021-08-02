@@ -23,22 +23,17 @@ def get_all_parents(category):
     return all_categories[::-1]
 
 
-def get_category_tree(categories):
-    categories_sorted = []
-    for category in categories:
-        child_categories = category.children.all()
-        categories_sorted.append(category)
-        if child_categories:
-            categories_sorted.append(get_category_tree(child_categories))
-    return categories_sorted
+def get_children(category_, all_categories):
+    child_categories = []
+    for category in all_categories:
+        if category.parent_id == category_.id:
+            child_categories.append(category)
+    return child_categories
 
 
-def get_category_tree_dict(categories):
-    categories_sorted = {}
-    for category in categories:
-        child_categories = category.children.all()
-        if child_categories:
-            categories_sorted[category] = get_category_tree_dict(child_categories)
-        else:
-            categories_sorted[category] = None
-    return categories_sorted
+def get_category_tree(top_categories, all_categories):
+    tree = {}
+    for top_category in top_categories:
+        child_categories = get_children(top_category, all_categories)
+        tree[top_category] = get_category_tree(child_categories, all_categories)
+    return tree
