@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <title>Main Page</title>
     {% load static %}
-    <link link rel="stylesheet" href="{% static 'store/main.css' %}">
+    <link rel="stylesheet" href="{% static 'store/main.css' %}">
 </head>
 <body>
 <form id="input-main">
-    <input class="searchbar" type="text" name="search" {%if query_search%} value="{{query_search}}"{%endif%} placeholder="Поиск по сайту">
+    <input class="searchbar" type="text" name="search" {% if query_search %} value="{{ query_search }}"{% endif %}
+           placeholder="Поиск по сайту">
 </form>
-<a href="{% url 'index' %}" alt="logo"><img src="{% static 'store/images/logo.png' %}"></a>
+<a href="{% url 'index' %}"><img alt="logo" src="{% static 'store/images/logo.png' %}"></a>
 {% include 'store/includes/breadcrumbs.html' %}
-<div class="main-wrapper" id="main-wrapper" data-is-ajax="" data-ajax="{% url 'ajax' %}" >
+<div class="main-wrapper" id="main-wrapper" data-is-ajax="" data-ajax="{% url 'ajax' %}">
     <div class="category">
         {% block category %}
             {% include 'store/includes/categories.html' %}
         {% endblock category %}
     </div>
-<div class="products">
-{% include 'store/includes/products_to_show.html' %}
-</div>
+    <div class="products">
+        {% include 'store/includes/products_to_show.html' %}
     </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{% static 'store/main.js' %}"></script>
 </body>

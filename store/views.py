@@ -8,7 +8,6 @@ from django.http import Http404
 
 def index(request):
     query_search = request.GET.get('search', '')
-
     if query_search:
         products = Product.objects.filter(name__icontains=query_search)
     else:
@@ -25,11 +24,8 @@ def index(request):
     }
 
     template = 'store/index.html'
-
     if request.is_ajax():
-        return render(request,
-                      'store/includes/products_to_show.html', context)
-
+        return render(request, 'store/includes/products_to_show.html', context)
     return render(request, template, context)
 
 
@@ -37,10 +33,8 @@ def category_detail(request, hierarchy=None):
     slug = hierarchy.split('/')[-1]
     category = get_object_or_404(Category, slug=slug)
     all_parent_categories = get_all_parents(category)
-
     if hierarchy.split('/') == [c.slug for c in all_parent_categories]:
         products = get_products_by_category(category)
-
     else:
         raise Http404()
 
@@ -57,8 +51,7 @@ def category_detail(request, hierarchy=None):
 
     template = 'store/index.html'
     if request.is_ajax():
-        return render(request,
-                      'store/includes/products_to_show.html', context)
+        return render(request, 'store/includes/products_to_show.html', context)
 
     return render(request, template, context)
 
@@ -68,10 +61,8 @@ def ajax(request):
         raise Http404()
 
     query_search = request.GET.get('search', '')
-
     if query_search:
         products = Product.objects.filter(name__icontains=query_search)
-
     else:
         products = Product.objects.all()
 
@@ -85,5 +76,4 @@ def ajax(request):
         'query_search': query_search
     }
 
-    return render(request,
-                  'store/includes/products_to_show.html', context)
+    return render(request, 'store/includes/products_to_show.html', context)

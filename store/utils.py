@@ -37,4 +37,3 @@ def get_category_tree(top_categories, all_categories):
         child_categories = get_children(top_category, all_categories)
         tree[top_category] = get_category_tree(child_categories, all_categories)
     return tree
-
