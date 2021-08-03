@@ -109,3 +109,7 @@ li {
     float: right;
 }
 
+.selected {
+    background-color: #79aec8;
+}
+

@@ -150,3 +150,4 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 /TestProject/settings/settings_local.py
+/TestProject/urls_local.py
