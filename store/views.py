@@ -94,7 +94,7 @@ def order_remove(request, pk):
 
 
 def cart(request):
-    orders = OrderItem.objects.all()
+    orders = OrderItem.objects.all().select_related('product')
     context = {
         'orders': orders
     }
