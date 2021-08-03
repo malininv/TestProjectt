@@ -1,17 +1,13 @@
 from django.shortcuts import render
 from store.models import Product, Category
-from store.utils import get_products_by_category, get_all_parents, get_category_tree
+from store.utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.http import Http404
 
 
 def index(request):
-    all_categories = Category.objects.all().select_related('parent')
-    top_categories = [category for category in all_categories if category.parent is None]
     query_search = request.GET.get('search', '')
-
-    categories = get_category_tree(top_categories, all_categories)
 
     if query_search:
         products = Product.objects.filter(name__icontains=query_search)
@@ -25,9 +21,7 @@ def index(request):
     context = {
         'products': page.object_list,
         'page_obj': page,
-        'categories': categories,
-        'query_search': query_search,
-        'top_categories': top_categories
+        'query_search': query_search
     }
 
     template = 'store/index.html'
@@ -40,9 +34,6 @@ def index(request):
 
 
 def category_detail(request, hierarchy=None):
-    all_categories = Category.objects.all()
-    top_categories = all_categories.filter(parent=None)
-    categories = get_category_tree(top_categories, all_categories)
     slug = hierarchy.split('/')[-1]
     category = get_object_or_404(Category, slug=slug)
     all_parent_categories = get_all_parents(category)
@@ -61,8 +52,7 @@ def category_detail(request, hierarchy=None):
         'products': page.object_list,
         'category': category,
         'page_obj': page,
-        'all_parent_categories': all_parent_categories,
-        'categories': categories
+        'all_parent_categories': all_parent_categories
     }
 
     template = 'store/index.html'
