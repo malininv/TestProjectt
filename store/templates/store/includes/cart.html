@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+<ol>
+    {% for order in orders %}
+        <li>{{ order.product.name }}</li>
+        <form method="POST" action="{% url 'order_remove' order.id %}">
+            {% csrf_token %}
+            <input type="submit" value="Remove">
+        </form>
+    {% endfor %}
+</ol>
+<div id="back-store"><a href="{% url 'index' %}">Back to store</a></div>
+</body>
+</html>

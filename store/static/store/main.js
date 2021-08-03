@@ -67,4 +67,7 @@ $(document).ready(() => {
             }
         })
     })
+    $('#add-to-cart').click(e => {
+
+    })
 })

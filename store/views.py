@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from store.models import Product, Category
+from store.models import Product, Category, OrderItem
 from store.utils import get_products_by_category, get_all_parents
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.http import Http404
 
@@ -77,3 +77,25 @@ def ajax(request):
     }
 
     return render(request, 'store/includes/products_to_show.html', context)
+
+
+def order_add(request, pk):
+    if request.method == 'POST':
+        product = Product.objects.get(pk=pk)
+        OrderItem.objects.create(product=product)
+    return redirect(index)
+
+
+def order_remove(request, pk):
+    if request.method == 'POST':
+        order_item = OrderItem.objects.get(pk=pk)
+        order_item.delete()
+    return redirect(cart)
+
+
+def cart(request):
+    orders = OrderItem.objects.all()
+    context = {
+        'orders': orders
+    }
+    return render(request, 'store/includes/cart.html', context)

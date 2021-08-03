@@ -5,6 +5,10 @@
             <img class="product-image" src="
                     {% if product.image %}{{ product.image.url }} {% else %} {{ product.category.image.url }} {% endif %}"
                  alt="Какой-то продукт">
+            <form method="POST" action="{% url 'order_add' product.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Add to Cart">
+            </form>
         </div>
     {% empty %}
         <div class="no-item">Таких нету</div>
