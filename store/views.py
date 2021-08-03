@@ -7,8 +7,8 @@ from django.http import Http404
 
 
 def index(request):
-    all_categories = Category.objects.all()
-    top_categories = all_categories.filter(parent=None)
+    all_categories = Category.objects.all().select_related('parent')
+    top_categories = [category for category in all_categories if category.parent is None]
     query_search = request.GET.get('search', '')
 
     categories = get_category_tree(top_categories, all_categories)
