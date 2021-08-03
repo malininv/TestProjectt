@@ -44,7 +44,7 @@ def category_detail(request, hierarchy=None):
 
     context = {
         'products': page.object_list,
-        'category': category,
+        'current_category': category,
         'page_obj': page,
         'all_parent_categories': all_parent_categories
     }

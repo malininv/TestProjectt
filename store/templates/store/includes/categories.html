@@ -1,7 +1,7 @@
 <div class="accordion-item">
     {% for category, childs in categories.items %}
-        <input class="accordion-item__input" type="checkbox" id="accordion-{{ category.id }}">
-        <label class="accordion-item__trigger" for="accordion-{{ category.id }}"><a
+        <input class="accordion-item__input" type="checkbox" {% if category in all_parent_categories %}checked="checked"{% endif %}id="accordion-{{ category.id }}">
+        <label class="accordion-item__trigger {% if category == current_category %} selected {% endif %}" for="accordion-{{ category.id }}"><a
                 href="{% url 'category_detail' category.get_absolute_url %}">{{ category.name }}</a></label>
         {% if childs.items %}
             <div class="accordion-item__content">{% include 'store/includes/categories.html' with categories=childs %}</div>

@@ -1,13 +1,4 @@
 $(document).ready(() => {
-    $('input').removeAttr('checked')
-     let allParents = $('#main-wrapper').attr("data-all-parents").split('/')
-    allParents.pop()
-    allParents.forEach(e => {
-        $('#accordion-'+e).attr('checked', 'checked')
-    })
-    let last_element = 'accordion-' + allParents.pop()
-    $(`label[for=${last_element}]`).addClass('selected')
-
     $('#input-main').submit((e) => {
         e.preventDefault()
         const req = $('#input-main').serialize()
