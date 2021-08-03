@@ -1,10 +1,10 @@
-
 <div class="paginator">
-
-        <a id="prev_button"  href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">
-            <span class="">&lt;&lt;назад</span>
-        </a>
-        <a id="next_button"  href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">
-            <span class="">вперед&gt;&gt;</span>
-        </a>
+    <a id="prev_button"
+       href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">
+        <span class="">&lt;&lt;назад</span>
+    </a>
+    <a id="next_button"
+       href="?{% if query_search %}search={{ query_search }}&{% endif %}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">
+        <span class="">вперед&gt;&gt;</span>
+    </a>
 </div>
