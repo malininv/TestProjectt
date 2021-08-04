@@ -19,5 +19,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('store.urls'))
-
 ]
+
+handler404 = 'store.views.page_not_found_404'
+handler400 = 'store.views.bad_request_400'
+handler500 = 'store.views.server_error_500'
+
