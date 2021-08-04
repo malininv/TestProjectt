@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from store.models import Product, Category, OrderItem
-from store.utils import get_products_by_category, get_all_parents
+from store.utils import get_products_by_category, get_all_parents, get_pages
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponse
+from django.http import Http404, JsonResponse
 
 
 def index(request):
@@ -25,7 +25,7 @@ def index(request):
 
     template = 'store/index.html'
     if request.is_ajax():
-        return render(request, 'store/includes/products_to_show.html', context)
+        return JsonResponse(get_pages(page, query_search), safe=False)
     return render(request, template, context)
 
 
@@ -51,7 +51,7 @@ def category_detail(request, hierarchy=None):
 
     template = 'store/index.html'
     if request.is_ajax():
-        return render(request, 'store/includes/products_to_show.html', context)
+        return JsonResponse(get_pages(page), safe=False)
 
     return render(request, template, context)
 
@@ -70,13 +70,7 @@ def ajax(request):
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
 
-    context = {
-        'products': page.object_list,
-        'page_obj': page,
-        'query_search': query_search
-    }
-
-    return render(request, 'store/includes/products_to_show.html', context)
+    return JsonResponse(get_pages(page, query_search), safe=False)
 
 
 def order_add(request, pk):

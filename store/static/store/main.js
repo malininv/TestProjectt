@@ -1,19 +1,32 @@
 $(document).ready(() => {
     $('#input-main').submit((e) => {
         e.preventDefault()
-        const req = $('#input-main').serialize()
+        let req = $('#input-main').serialize()
         $.ajax({
             url: $('#main-wrapper').attr("data-ajax"),
             data: req,
             success: (response) => {
-                let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#next_button').attr('href')
-                let paginator2 = $(response).find('#prev_button').attr('href')
+                $('.product-wrapper').empty()
+                $('.category input').removeAttr('checked')
+                let pages = response.pop()
+                req = pages['next_page']
 
-                $('.product-wrapper').html(products)
-                $('#next_button').attr("href", paginator)
-                $('#prev_button').attr("href", paginator2)
-                $('.breadcrumbs').empty()
+                $('#next_button').attr("href", pages['next_page'])
+                $('#prev_button').attr("href", pages['prev_page'])
+
+                response.forEach(e => {
+                    $('.product-wrapper').append(`
+
+            <div class="product-item">
+                <div class="product-name">${e['name']}</div>
+                <img class="product-image" src="${e['image']}" alt="Какой-то продукт">
+                <form method="POST" action="${$('#main-wrapper').attr("data-order-add")}">
+<!--                {% csrf_token %}-->
+                <input type="submit" value="Add to Cart">
+                </form>
+            </div>`)
+
+                })
                 $('#main-wrapper').attr("data-is-ajax", 'true')
 
             }
@@ -23,7 +36,7 @@ $(document).ready(() => {
     $('#next_button').click((e) => {
         e.preventDefault()
 
-        const req = $('#next_button').attr("href").slice(1)
+        let req = $('#next_button').attr("href")
         if ($('#main-wrapper').attr("data-is-ajax")) {
             url = $('#main-wrapper').attr("data-ajax")
         } else {
@@ -33,12 +46,27 @@ $(document).ready(() => {
             url: url,
             data: req,
             success: (response) => {
-                let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#next_button').attr('href')
-                let paginator2 = $(response).find('#prev_button').attr('href')
-                $('.product-wrapper').html(products)
-                $('#next_button').attr("href", paginator)
-                $('#prev_button').attr("href", paginator2)
+                $('.product-wrapper').empty()
+                let pages = response.pop()
+                req = pages['next_page']
+
+                $('#next_button').attr("href", pages['next_page'])
+                $('#prev_button').attr("href", pages['prev_page'])
+
+                response.forEach(e => {
+                    $('.product-wrapper').append(`
+
+            <div class="product-item">
+                <div class="product-name">${e['name']}</div>
+                <img class="product-image" src="${e['image']}" alt="Какой-то продукт">
+                <form method="POST" action="${$('#main-wrapper').attr("data-order-add").slice(0, -2)}${e['id']}/">
+<!--                {% csrf_token %}-->
+                <input type="submit" value="Add to Cart">
+                </form>
+            </div>`)
+
+                })
+
 
             }
         })
@@ -46,7 +74,7 @@ $(document).ready(() => {
 
     $('#prev_button').click((e) => {
         e.preventDefault()
-        const req = $('#prev_button').attr("href").slice(1)
+        let req = $('#prev_button').attr("href")
 
         if ($('#main-wrapper').attr("data-is-ajax")) {
             url = $('#main-wrapper').attr("data-ajax")
@@ -57,17 +85,29 @@ $(document).ready(() => {
             url: url,
             data: req,
             success: (response) => {
-                let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#next_button').attr('href')
-                let paginator2 = $(response).find('#prev_button').attr('href')
-                $('.product-wrapper').html(products)
-                $('#next_button').attr("href", paginator)
-                $('#prev_button').attr("href", paginator2)
+               $('.product-wrapper').empty()
+                let pages = response.pop()
+                req = pages['prev_page']
+
+                $('#next_button').attr("href", pages['next_page'])
+                $('#prev_button').attr("href", pages['prev_page'])
+
+                response.forEach(e => {
+                    $('.product-wrapper').append(`
+
+            <div class="product-item">
+                <div class="product-name">${e['name']}</div>
+                <img class="product-image" src="${e['image']}" alt="Какой-то продукт">
+                <form method="POST" action="${$('#main-wrapper').attr("data-order-add").slice(0, -2)}${e['id']}/">
+<!--                {% csrf_token %}-->
+                <input type="submit" value="Add to Cart">
+                </form>
+            </div>`)
+
+                })
+
 
             }
         })
-    })
-    $('#add-to-cart').click(e => {
-
     })
 })
