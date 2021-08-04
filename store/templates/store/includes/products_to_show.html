@@ -2,9 +2,7 @@
     {% for product in products %}
         <div class="product-item">
             <div>{{ product.name }}</div>
-            <img class="product-image" src="
-                    {% if product.image %}{{ product.image.url }} {% else %} {{ product.category.image.url }} {% endif %}"
-                 alt="Какой-то продукт">
+            <img class="product-image" src="{% if product.image %}{{ product.image.url }}{% else %}{{ product.category.image.url }}{% endif %}" alt="Какой-то продукт">
             <form method="POST" action="{% url 'order_add' product.id %}">
                 {% csrf_token %}
                 <input type="submit" value="Add to Cart">
