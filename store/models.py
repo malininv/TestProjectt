@@ -20,10 +20,6 @@ class Category(models.Model):
 
         return ' -> '.join(full_path[::-1])
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
-
     def get_absolute_url(self):
         absolute_url = [self.slug]
         k = self.parent
@@ -41,10 +37,6 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['name']
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Product, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return self.slug
