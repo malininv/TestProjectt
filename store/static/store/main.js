@@ -6,10 +6,9 @@ $(document).ready(() => {
             url: $('#main-wrapper').attr("data-ajax"),
             data: req,
             success: (response) => {
-                let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#next_button').attr('href')
-                let paginator2 = $(response).find('#prev_button').attr('href')
-
+                let products = $(response['html']).filter('.product-wrapper').html()
+                let paginator = $(response['html']).find('#next_button').attr('href')
+                let paginator2 = $(response['html']).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)
@@ -22,7 +21,6 @@ $(document).ready(() => {
 
     $('#next_button').click((e) => {
         e.preventDefault()
-
         const req = $('#next_button').attr("href").slice(1)
         if ($('#main-wrapper').attr("data-is-ajax")) {
             url = $('#main-wrapper').attr("data-ajax")
@@ -33,9 +31,9 @@ $(document).ready(() => {
             url: url,
             data: req,
             success: (response) => {
-                let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#next_button').attr('href')
-                let paginator2 = $(response).find('#prev_button').attr('href')
+                let products = $(response['html']).filter('.product-wrapper').html()
+                let paginator = $(response['html']).find('#next_button').attr('href')
+                let paginator2 = $(response['html']).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)
@@ -47,7 +45,6 @@ $(document).ready(() => {
     $('#prev_button').click((e) => {
         e.preventDefault()
         const req = $('#prev_button').attr("href").slice(1)
-
         if ($('#main-wrapper').attr("data-is-ajax")) {
             url = $('#main-wrapper').attr("data-ajax")
         } else {
@@ -57,17 +54,14 @@ $(document).ready(() => {
             url: url,
             data: req,
             success: (response) => {
-                let products = $(response).filter('.product-wrapper').html()
-                let paginator = $(response).find('#next_button').attr('href')
-                let paginator2 = $(response).find('#prev_button').attr('href')
+                let products = $(response['html']).filter('.product-wrapper').html()
+                let paginator = $(response['html']).find('#next_button').attr('href')
+                let paginator2 = $(response['html']).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)
 
             }
         })
-    })
-    $('#add-to-cart').click(e => {
-
     })
 })

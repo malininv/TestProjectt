@@ -3,7 +3,8 @@ from store.models import Product, Category, OrderItem
 from store.utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponse
+from django.http import Http404, JsonResponse
+from django.template.loader import render_to_string
 
 
 def index(request):
@@ -25,7 +26,8 @@ def index(request):
 
     template = 'store/index.html'
     if request.is_ajax():
-        return render(request, 'store/includes/products_to_show.html', context)
+        html = render_to_string('store/includes/products_to_show.html', context)
+        return JsonResponse({'html': html})
     return render(request, template, context)
 
 
@@ -33,10 +35,9 @@ def category_detail(request, hierarchy=None):
     slug = hierarchy.split('/')[-1]
     category = get_object_or_404(Category, slug=slug)
     all_parent_categories = get_all_parents(category)
-    if hierarchy.split('/') == [c.slug for c in all_parent_categories]:
-        products = get_products_by_category(category)
-    else:
+    if hierarchy.split('/') != [c.slug for c in all_parent_categories]:
         raise Http404()
+    products = get_products_by_category(category)
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
@@ -51,7 +52,8 @@ def category_detail(request, hierarchy=None):
 
     template = 'store/index.html'
     if request.is_ajax():
-        return render(request, 'store/includes/products_to_show.html', context)
+        html = render_to_string('store/includes/products_to_show.html', context)
+        return JsonResponse({'html': html})
 
     return render(request, template, context)
 
@@ -76,7 +78,8 @@ def ajax(request):
         'query_search': query_search
     }
 
-    return render(request, 'store/includes/products_to_show.html', context)
+    html = render_to_string('store/includes/products_to_show.html', context)
+    return JsonResponse({'html': html})
 
 
 def order_add(request, pk):
