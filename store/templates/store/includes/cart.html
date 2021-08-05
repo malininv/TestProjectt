@@ -6,9 +6,9 @@
 </head>
 <body>
 <ol>
-    {% for order in orders %}
-        <li>{{ order.product.name }}</li>
-        <form method="POST" action="{% url 'order_remove' order.id %}">
+    {% for item in order.orderitem_set.all %}
+        <li>{{ item.product.name }} {% if item.quantity > 1 %}({{ item.quantity }} шт.){% endif %}</li>
+        <form method="POST" action="{% url 'order_remove' item.id %}">
             {% csrf_token %}
             <input type="submit" value="Remove">
         </form>

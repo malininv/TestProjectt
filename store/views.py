@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from store.models import Product, Category, OrderItem
+from store.models import Product, Category, OrderItem, Customer, Order
 from store.utils import get_products_by_category, get_all_parents
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
@@ -8,16 +8,17 @@ from django.template.loader import render_to_string
 
 
 def index(request):
-
     products = Product.objects.all()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
+    user = request.COOKIES
 
     context = {
         'products': page.object_list,
-        'page_obj': page
+        'page_obj': page,
+        'session': user
     }
 
     template = 'store/index.html'
@@ -38,7 +39,6 @@ def category_detail(request, hierarchy=None):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
-
     context = {
         'products': page.object_list,
         'current_category': category,
@@ -81,21 +81,28 @@ def ajax(request):
 def order_add(request, pk):
     if request.method == 'POST':
         product = Product.objects.get(pk=pk)
-        OrderItem.objects.create(product=product)
+        cookie = request.COOKIES.get('csrftoken', '')
+        customer, created = Customer.objects.get_or_create(cookie=cookie)
+        order, created = Order.objects.get_or_create(user=customer, complete=False)
+        order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
+        order_item.quantity = request.POST['quantity']
+        order_item.save()
     return redirect(index)
 
 
 def order_remove(request, pk):
     if request.method == 'POST':
-        order_item = OrderItem.objects.get(pk=pk)
+        order_item, created = OrderItem.objects.get_or_create(id=pk)
         order_item.delete()
     return redirect(cart)
 
 
 def cart(request):
-    orders = OrderItem.objects.all().select_related('product')
+    cookie = request.COOKIES.get('csrftoken', '')
+    customer, created = Customer.objects.get_or_create(cookie=cookie)
+    order, created = Order.objects.get_or_create(user=customer, complete=False)
     context = {
-        'orders': orders
+        'order': order
     }
     return render(request, 'store/includes/cart.html', context)
 

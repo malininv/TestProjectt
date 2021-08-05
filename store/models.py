@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -44,8 +45,23 @@ class Product(models.Model):
         return self.name
 
 
-class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+class Customer(models.Model):
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    cookie = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return self.product.name
+        return self.cookie
+
+
+class Order(models.Model):
+    user = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.id)
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=1)
