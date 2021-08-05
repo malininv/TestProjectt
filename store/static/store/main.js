@@ -6,6 +6,8 @@ $(document).ready(() => {
             url: $('#main-wrapper').attr("data-ajax"),
             data: req,
             success: (response) => {
+                $('.category input:checked').removeAttr('checked')
+                $('.category label').removeClass('selected')
                 let products = $(response['html']).filter('.product-wrapper').html()
                 let paginator = $(response['html']).find('#next_button').attr('href')
                 let paginator2 = $(response['html']).find('#prev_button').attr('href')

@@ -8,11 +8,8 @@ from django.template.loader import render_to_string
 
 
 def index(request):
-    query_search = request.GET.get('search', '')
-    if query_search:
-        products = Product.objects.filter(name__icontains=query_search)
-    else:
-        products = Product.objects.all()
+
+    products = Product.objects.all()
 
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
@@ -20,13 +17,12 @@ def index(request):
 
     context = {
         'products': page.object_list,
-        'page_obj': page,
-        'query_search': query_search
+        'page_obj': page
     }
 
     template = 'store/index.html'
     if request.is_ajax():
-        html = render_to_string('store/includes/products_to_show.html', context)
+        html = render_to_string('store/includes/products_to_show.html', context, request)
         return JsonResponse({'html': html})
     return render(request, template, context)
 
@@ -52,7 +48,7 @@ def category_detail(request, hierarchy=None):
 
     template = 'store/index.html'
     if request.is_ajax():
-        html = render_to_string('store/includes/products_to_show.html', context)
+        html = render_to_string('store/includes/products_to_show.html', context, request)
         return JsonResponse({'html': html})
 
     return render(request, template, context)
@@ -78,7 +74,7 @@ def ajax(request):
         'query_search': query_search
     }
 
-    html = render_to_string('store/includes/products_to_show.html', context)
+    html = render_to_string('store/includes/products_to_show.html', context, request)
     return JsonResponse({'html': html})
 
 
