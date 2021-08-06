@@ -13,7 +13,6 @@ def index(request):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
-
     context = {
         'products': page.object_list,
         'page_obj': page

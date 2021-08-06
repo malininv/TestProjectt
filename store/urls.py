@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
@@ -10,6 +10,7 @@ urlpatterns = [
     path('order_remove/<str:pk>/', views.order_remove, name="order_remove"),
     path('cart/', views.cart, name="cart"),
     path('order_complete/<str:pk>/', views.order_complete, name="order_complete"),
+    path('i18n/', include('django.conf.urls.i18n')),
     re_path(r'^(?P<hierarchy>.+)/$', views.category_detail, name='category_detail')
 ]
 
