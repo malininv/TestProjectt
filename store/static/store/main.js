@@ -1,4 +1,23 @@
 $(document).ready(() => {
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    productForm()
+
     $('#input-main').submit((e) => {
         e.preventDefault()
         const req = $('#input-main').serialize()
@@ -6,6 +25,7 @@ $(document).ready(() => {
             url: $('#main-wrapper').attr("data-ajax"),
             data: req,
             success: (response) => {
+
                 $('.category input:checked').removeAttr('checked')
                 $('.category label').removeClass('selected')
                 let products = $(response['html']).filter('.product-wrapper').html()
@@ -16,7 +36,7 @@ $(document).ready(() => {
                 $('#prev_button').attr("href", paginator2)
                 $('.breadcrumbs').empty()
                 $('#main-wrapper').attr("data-is-ajax", 'true')
-
+                productForm()
             }
         })
     })
@@ -33,13 +53,14 @@ $(document).ready(() => {
             url: url,
             data: req,
             success: (response) => {
+                productForm()
                 let products = $(response['html']).filter('.product-wrapper').html()
                 let paginator = $(response['html']).find('#next_button').attr('href')
                 let paginator2 = $(response['html']).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)
-
+                productForm()
             }
         })
     })
@@ -56,14 +77,29 @@ $(document).ready(() => {
             url: url,
             data: req,
             success: (response) => {
+                productForm()
                 let products = $(response['html']).filter('.product-wrapper').html()
                 let paginator = $(response['html']).find('#next_button').attr('href')
                 let paginator2 = $(response['html']).find('#prev_button').attr('href')
                 $('.product-wrapper').html(products)
                 $('#next_button').attr("href", paginator)
                 $('#prev_button').attr("href", paginator2)
-
+                productForm()
             }
         })
     })
+
+    function productForm() {
+        $('.product-form').submit(e => {
+            e.preventDefault()
+            $.ajax({
+                type: 'POST',
+                url: e.currentTarget.action,
+                data: {csrfmiddlewaretoken: csrftoken, 'quantity': e.currentTarget.quantity.value},
+                success: (response) => {
+                    console.log(response)
+                }
+            })
+        })
+    }
 })

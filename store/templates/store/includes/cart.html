@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Cart</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/main.css' %}">
 </head>
 <body>
-<ol>
+<ol class="cart-page">
     {% for item in order.orderitem_set.all %}
         <li>{{ item.product.name }} {% if item.quantity > 1 %}({{ item.quantity }} шт.){% endif %}</li>
         <form method="POST" action="{% url 'order_remove' item.id %}">
@@ -14,6 +16,21 @@
         </form>
     {% endfor %}
 </ol>
+<button class="trigger_popup_fricc">На страницу оплаты</button>
+
+<div class="hover_bkgr_fricc">
+    <span class="helper"></span>
+    <div>
+        <div class="popupCloseButton">&times;</div>
+        <form method="POST" action="{% url 'order_complete' order.id %}">
+            {% csrf_token %}
+            <p>Тут вы могли бы ввести данные</p>
+            <input type="submit" value="Оплатить">
+        </form>
+    </div>
+</div>
 <div id="back-store"><a href="{% url 'index' %}">Back to store</a></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'store/cart.js' %}"></script>
 </body>
 </html>

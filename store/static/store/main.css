@@ -113,17 +113,9 @@ li {
     background-color: #79aec8;
 }
 
-.cart {
-    border: 2px solid black;
-    border-top: 0;
-    padding: 10px;
-    width: 130px;
-    margin: 0;
-}
 
-.cart a {
-    display: block;
-    text-align: center;
+.cart-page li {
+    border: none;
 }
 
 .error {
@@ -135,3 +127,31 @@ li {
     width: 30px;
 }
 
+.trigger_popup_fricc {
+    margin: 10px 0;
+}
+
+.hover_bkgr_fricc {
+    display: none;
+    border: 2px solid black;
+    padding: 20px;
+    width: 400px;
+}
+
+.popupCloseButton {
+    width: 10px;
+    cursor: pointer;
+}
+
+.cart {
+    border: 2px solid black;
+    border-top: 0px;
+    border-top: 0;
+    padding: 10px;
+    width: 130px;
+    margin: 0;
+}
+
+.cart a {
+    display: block;
+}

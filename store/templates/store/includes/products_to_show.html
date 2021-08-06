@@ -5,8 +5,8 @@
             <img class="product-image" src="{% if product.image %}{{ product.image.url }}{% else %}{{ product.category.image.url }}{% endif %}" alt="Какой-то продукт">
             <form method="POST" class="product-form" action="{% url 'order_add' product.id %}">
                 {% csrf_token %}
+                <input class="quantity" min="1" value=1 type="number" name="quantity" >
                 <input type="submit" value="Add to Cart">
-                <input class="quantity" min="1" value=1 type="number" name="quantity">
             </form>
         </div>
     {% empty %}

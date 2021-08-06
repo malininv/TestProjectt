@@ -14,7 +14,7 @@
 <a href="{% url 'index' %}"><img alt="logo" src="{% static 'store/images/logo.png' %}"></a>
 {% include 'store/includes/breadcrumbs.html' %}
 <div class="main-wrapper" id="main-wrapper" data-is-ajax="" data-ajax="{% url 'ajax' %}"
-     data-all-parents="{% for parent in all_parent_categories %}{{ parent.id }}/{% endfor %}">
+     data-all-parents="{% for parent in all_parent_categories %}{{ parent.id }}/{% endfor %}" >
     <div class="category">
         {% block category %}
             {% include 'store/includes/categories.html' %}

@@ -13,12 +13,10 @@ def index(request):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
-    user = request.COOKIES
 
     context = {
         'products': page.object_list,
-        'page_obj': page,
-        'session': user
+        'page_obj': page
     }
 
     template = 'store/index.html'
@@ -95,6 +93,14 @@ def order_remove(request, pk):
         order_item, created = OrderItem.objects.get_or_create(id=pk)
         order_item.delete()
     return redirect(cart)
+
+
+def order_complete(request, pk):
+    if request.method == 'POST':
+        order, created = Order.objects.get_or_create(id=pk)
+        order.complete = True
+        order.save()
+    return render(request, 'store/includes/thanks.html', {})
 
 
 def cart(request):
