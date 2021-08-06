@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    console.log()
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -92,14 +93,19 @@ $(document).ready(() => {
     function productForm() {
         $('.product-form').submit(e => {
             e.preventDefault()
-            $.ajax({
-                type: 'POST',
-                url: e.currentTarget.action,
-                data: {csrfmiddlewaretoken: csrftoken, 'quantity': e.currentTarget.quantity.value},
-                success: (response) => {
-                    console.log(response)
-                }
-            })
+//            $.ajax({
+//                type: 'POST',
+//                url: e.currentTarget.action,
+//                data: {csrfmiddlewaretoken: csrftoken, 'quantity': e.currentTarget.quantity.value},
+//                success: (response) => {
+//                    console.log(response)
+//                }
+//            })
+            arr = e.currentTarget.action.split('/')
+            dict = {}
+            dict['products'][arr[4]] = [arr[3]]
+            document.cookie = `products=${dict}`
+
         })
     }
 })
