@@ -78,36 +78,54 @@ def ajax(request):
 
 
 def order_add(request, pk):
+    response = redirect(index)
     if request.method == 'POST':
         product = Product.objects.get(pk=pk)
+        quantity = request.POST['quantity']
+        response.set_cookie(key=f'product-{product.name}', value=f'{product.pk}/{quantity}')
+    return response
+
+
+def order_remove(request, name):
+    response = redirect(cart)
+    if request.method == 'POST':
+        response = redirect(cart)
+        name = 'product-' + name
+        response.delete_cookie(name)
+    return response
+
+
+def order_complete(request):
+    if request.method == 'POST':
         cookie = request.COOKIES.get('csrftoken', '')
         customer, created = Customer.objects.get_or_create(cookie=cookie)
-        order, created = Order.objects.get_or_create(user=customer, complete=False)
-        order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
-        order_item.quantity = request.POST['quantity']
-        order_item.save()
-    return redirect(index)
+        order, created = Order.objects.get_or_create(user=customer)
+        response = render(request, 'store/includes/thanks.html', {'order': order})
+        for product, v in request.COOKIES.items():
+            if 'product-' in product:
+                productt = Product.objects.get(pk=v.split('/')[0])
+                order_item, created = OrderItem.objects.get_or_create(order=order, product=productt)
+                order_item.quantity = v.split('/')[1]
+                order_item.save()
+    return response
 
 
-def order_remove(request, pk):
+def order_payed(request, order_id):
     if request.method == 'POST':
-        order_item, created = OrderItem.objects.get_or_create(id=pk)
-        order_item.delete()
-    return redirect(cart)
-
-
-def order_complete(request, pk):
-    if request.method == 'POST':
-        order, created = Order.objects.get_or_create(id=pk)
+        order = Order.objects.get(pk=order_id)
         order.complete = True
         order.save()
-    return render(request, 'store/includes/thanks.html', {})
+        response = render(request, 'store/includes/payed.html', {'order': order.pk})
+        response.delete_cookie('csrftoken')
+        return response
 
 
 def cart(request):
-    cookie = request.COOKIES.get('csrftoken', '')
-    customer, created = Customer.objects.get_or_create(cookie=cookie)
-    order, created = Order.objects.get_or_create(user=customer, complete=False)
+    order = {}
+    for product, v in request.COOKIES.items():
+        if 'product-' in product:
+            order.update({product[8:]: v.split('/')[1]})
+
     context = {
         'order': order
     }

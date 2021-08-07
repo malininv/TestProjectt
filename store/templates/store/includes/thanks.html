@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Congratulations!</title>
+    <title>Оплата</title>
 </head>
 <body>
-<p>Спасибо за покупку</p>
-<div id="back-store"><a href="{% url 'index' %}">Продолжить покупки</a></div>
+
+<p>Готовы оплатить?</p>
+<form method="post" action="{% url 'order_payed' order%}">
+    {% csrf_token %}
+    <input type="submit" value="Да, Оплатить">
+</form>
+<button><a  style="text-decoration: none; color: black;" href="{% url 'cart'%}">Нет, вернуться в корзину</a></button>
 </body>
 </html>
