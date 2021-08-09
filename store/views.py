@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from store.models import Product, Category, OrderItem, Customer, Order
-from store.utils import get_products_by_category, get_all_parents
+from store.utils import get_products_by_category, get_all_parents, prefix_for_product
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.http import Http404, JsonResponse
@@ -81,16 +81,16 @@ def order_add(request, pk):
     if request.method == 'POST':
         product = Product.objects.get(pk=pk)
         quantity = request.POST['quantity']
-        response.set_cookie(key=f'product-{product.name}', value=f'{product.pk}/{quantity}')
+        response.set_cookie(key=f'{prefix_for_product}{product.name}', value=f'{product.pk}/{quantity}')
     return response
 
 
 def order_remove(request, name):
     response = redirect(cart)
     if request.method == 'POST':
-        name = 'product-' + name
-        response.delete_cookie(name)
-        return redirect(cart)
+        full_name = f'{prefix_for_product}{name}'
+        response.delete_cookie(full_name)
+        return response
     return redirect(index)
 
 
@@ -101,7 +101,7 @@ def order_complete(request):
         order, created = Order.objects.get_or_create(user=customer)
         response = render(request, 'store/includes/thanks.html', {'order': order})
         for product, v in request.COOKIES.items():
-            if 'product-' in product:
+            if prefix_for_product in product:
                 product_in_base = Product.objects.get(pk=v.split('/')[0])
                 order_item, created = OrderItem.objects.get_or_create(order=order, product=product_in_base)
                 order_item.quantity = v.split('/')[1]
@@ -123,8 +123,8 @@ def order_payed(request, order_id):
 def cart(request):
     order = {}
     for product, v in request.COOKIES.items():
-        if 'product-' in product:
-            order.update({product.replace('product-', ''): v.split('/')[1]})
+        if prefix_for_product in product:
+            order.update({product.replace(prefix_for_product, ''): v.split('/')[1]})
 
     context = {
         'order': order
