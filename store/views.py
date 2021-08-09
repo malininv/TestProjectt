@@ -13,11 +13,10 @@ def index(request):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
-    cookie = request.COOKIES
+
     context = {
         'products': page.object_list,
-        'page_obj': page,
-        'cookie': cookie
+        'page_obj': page
     }
 
     template = 'store/index.html'
@@ -89,10 +88,10 @@ def order_add(request, pk):
 def order_remove(request, name):
     response = redirect(cart)
     if request.method == 'POST':
-        response = redirect(cart)
         name = 'product-' + name
         response.delete_cookie(name)
-    return response
+        return redirect(cart)
+    return redirect(index)
 
 
 def order_complete(request):
@@ -103,11 +102,12 @@ def order_complete(request):
         response = render(request, 'store/includes/thanks.html', {'order': order})
         for product, v in request.COOKIES.items():
             if 'product-' in product:
-                productt = Product.objects.get(pk=v.split('/')[0])
-                order_item, created = OrderItem.objects.get_or_create(order=order, product=productt)
+                product_in_base = Product.objects.get(pk=v.split('/')[0])
+                order_item, created = OrderItem.objects.get_or_create(order=order, product=product_in_base)
                 order_item.quantity = v.split('/')[1]
                 order_item.save()
-    return response
+        return response
+    return redirect(index)
 
 
 def order_payed(request, order_id):
@@ -116,15 +116,15 @@ def order_payed(request, order_id):
         order.complete = True
         order.save()
         response = render(request, 'store/includes/payed.html', {'order': order.pk})
-        response.delete_cookie('csrftoken')
         return response
+    return redirect(index)
 
 
 def cart(request):
     order = {}
     for product, v in request.COOKIES.items():
         if 'product-' in product:
-            order.update({product[8:]: v.split('/')[1]})
+            order.update({product.replace('product-', ''): v.split('/')[1]})
 
     context = {
         'order': order
