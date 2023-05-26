@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
@@ -122,4 +122,4 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'store/static/store/images')
 
-from .settings_local import *
+SECRET_KEY = '18zxk@r%b#3k05s%*%^3671j-!#^-*(0uh0)9_85!bbz9f8!or'

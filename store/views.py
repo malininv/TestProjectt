@@ -14,9 +14,15 @@ def index(request):
     paginator = Paginator(products, 12)
     page = paginator.get_page(page_number)
 
+    counter = 0
+    for k, v in request.COOKIES.items():
+        if prefix_for_product in k:
+            counter += int(v.split('/')[1])
+
     context = {
         'products': page.object_list,
-        'page_obj': page
+        'page_obj': page,
+        'counter': counter,
     }
 
     template = 'store/index.html'
@@ -80,15 +86,22 @@ def order_add(request, pk):
     response = redirect(index)
     if request.method == 'POST':
         product = Product.objects.get(pk=pk)
-        quantity = request.POST['quantity']
-        response.set_cookie(key=f'{prefix_for_product}{product.name}', value=f'{product.pk}/{quantity}')
+        key = f'{prefix_for_product}{product.slug}'
+        cookie_old = request.COOKIES.get(key, '')
+
+        quantity_old = 0
+        if cookie_old:
+            quantity_old = int(cookie_old.split('/')[1])
+
+        quantity = quantity_old + int(request.POST['quantity'])
+        response.set_cookie(key=key, value=f'{product.pk}/{quantity}')
     return response
 
 
-def order_remove(request, name):
+def order_remove(request, slug):
     response = redirect(cart)
     if request.method == 'POST':
-        full_name = f'{prefix_for_product}{name}'
+        full_name = f'{prefix_for_product}{slug}'
         response.delete_cookie(full_name)
         return response
     return redirect(index)
